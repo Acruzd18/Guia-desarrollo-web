@@ -1,0 +1,1888 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía Completa: HTML, CSS y JavaScript desde cero</title>
+<style>
+  :root {
+    --azul: #2563EB;
+    --azul-claro: #EFF6FF;
+    --azul-oscuro: #1E3A5F;
+    --verde: #059669;
+    --verde-claro: #ECFDF5;
+    --naranja: #D97706;
+    --naranja-claro: #FFFBEB;
+    --rojo: #DC2626;
+    --rojo-claro: #FEF2F2;
+    --morado: #7C3AED;
+    --morado-claro: #F5F3FF;
+    --gris-oscuro: #1F2937;
+    --gris-medio: #6B7280;
+    --gris-claro: #F3F4F6;
+    --blanco: #FFFFFF;
+    --code-bg: #1E293B;
+    --code-text: #E2E8F0;
+    --sidebar-w: 280px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #F8FAFC;
+    color: var(--gris-oscuro);
+    line-height: 1.7;
+    display: flex;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: var(--sidebar-w);
+    min-height: 100vh;
+    background: var(--azul-oscuro);
+    position: fixed;
+    top: 0; left: 0;
+    overflow-y: auto;
+    z-index: 100;
+    padding-bottom: 40px;
+  }
+  .sidebar-header {
+    padding: 24px 20px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .sidebar-header h2 {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .sidebar-header p { color: #93C5FD; font-size: 12px; margin-top: 4px; }
+
+  .sidebar a {
+    display: block;
+    padding: 7px 20px;
+    color: #CBD5E1;
+    text-decoration: none;
+    font-size: 13px;
+    border-left: 3px solid transparent;
+    transition: all 0.15s;
+  }
+  .sidebar a:hover { color: #fff; background: rgba(255,255,255,0.06); border-left-color: #60A5FA; }
+  .sidebar a.activo { color: #fff; background: rgba(96,165,250,0.15); border-left-color: #3B82F6; font-weight: 700; }
+
+  /* ── CONTENIDO ── */
+  .contenido {
+    margin-left: var(--sidebar-w);
+    flex: 1;
+    max-width: 860px;
+    padding: 48px 48px 80px;
+  }
+
+  /* ── PORTADA ── */
+  .portada {
+    background: linear-gradient(135deg, var(--azul-oscuro) 0%, #1D4ED8 100%);
+    border-radius: 16px;
+    padding: 48px;
+    color: #fff;
+    margin-bottom: 48px;
+  }
+  .portada .badge { display: inline-block; background: rgba(255,255,255,0.15); border-radius: 20px; padding: 4px 16px; font-size: 12px; font-weight: 700; margin-bottom: 16px; }
+  .portada h1 { font-size: 2.2rem; font-weight: 900; line-height: 1.2; margin-bottom: 12px; }
+  .portada p { color: #BFDBFE; font-size: 15px; max-width: 540px; }
+  .portada .stats { display: flex; gap: 24px; margin-top: 24px; }
+  .portada .stat { text-align: center; }
+  .portada .stat .n { font-size: 1.8rem; font-weight: 900; color: #fff; }
+  .portada .stat .l { font-size: 11px; color: #93C5FD; }
+
+  /* ── SECCIONES ── */
+  .modulo {
+    margin-bottom: 64px;
+    scroll-margin-top: 24px;
+  }
+  .modulo-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--gris-claro);
+  }
+  .modulo-num {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 900;
+    flex-shrink: 0;
+  }
+  .modulo-num.html { background: #FEE2E2; color: #B91C1C; }
+  .modulo-num.css  { background: #DBEAFE; color: #1D4ED8; }
+  .modulo-num.js   { background: #FEF9C3; color: #854D0E; }
+  .modulo-num.proj { background: #F3E8FF; color: #6D28D9; }
+  .modulo-num.tips { background: #DCFCE7; color: #166534; }
+
+  .modulo-header h2 { font-size: 1.6rem; font-weight: 800; }
+  .modulo-header p  { font-size: 14px; color: var(--gris-medio); margin-top: 2px; }
+
+  /* ── CAPÍTULOS ── */
+  .capitulo { margin-bottom: 36px; }
+  .capitulo h3 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin-bottom: 12px;
+    padding-left: 12px;
+    border-left: 4px solid var(--azul);
+  }
+  .capitulo h3.verde { border-left-color: var(--verde); }
+  .capitulo h3.naranja { border-left-color: var(--naranja); }
+  .capitulo h3.morado { border-left-color: var(--morado); }
+
+  .capitulo p, .capitulo li { font-size: 15px; color: #374151; line-height: 1.75; }
+  .capitulo ul, .capitulo ol { padding-left: 22px; margin: 8px 0; }
+  .capitulo li { margin-bottom: 4px; }
+
+  /* ── CAJAS ── */
+  .caja {
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 16px 0;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .caja.info    { background: var(--azul-claro);   border-left: 4px solid var(--azul);   color: #1E3A5F; }
+  .caja.ok      { background: var(--verde-claro);  border-left: 4px solid var(--verde);  color: #064E3B; }
+  .caja.warning { background: var(--naranja-claro);border-left: 4px solid var(--naranja);color: #78350F; }
+  .caja.error   { background: var(--rojo-claro);   border-left: 4px solid var(--rojo);   color: #7F1D1D; }
+  .caja.morado  { background: var(--morado-claro); border-left: 4px solid var(--morado); color: #3B0764; }
+  .caja b { font-weight: 800; }
+
+  /* ── CÓDIGO ── */
+  .code-block {
+    background: var(--code-bg);
+    border-radius: 10px;
+    margin: 16px 0;
+    overflow: hidden;
+  }
+  .code-label {
+    padding: 8px 16px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .code-label.html-label  { background: #7F1D1D; color: #FCA5A5; }
+  .code-label.css-label   { background: #1E3A8A; color: #93C5FD; }
+  .code-label.js-label    { background: #713F12; color: #FDE68A; }
+  .code-label.result-label{ background: #14532D; color: #86EFAC; }
+  pre {
+    padding: 20px;
+    overflow-x: auto;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--code-text);
+  }
+  .c-tag    { color: #F472B6; }
+  .c-attr   { color: #93C5FD; }
+  .c-val    { color: #86EFAC; }
+  .c-sel    { color: #C4B5FD; }
+  .c-prop   { color: #7DD3FC; }
+  .c-unit   { color: #FCA5A5; }
+  .c-kw     { color: #F472B6; }
+  .c-str    { color: #86EFAC; }
+  .c-num    { color: #FCD34D; }
+  .c-fn     { color: #93C5FD; }
+  .c-cmt    { color: #6B7280; font-style: italic; }
+
+  /* ── TABLA REFERENCIA ── */
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+  th { background: var(--azul-oscuro); color: #fff; padding: 10px 14px; text-align: left; font-weight: 700; }
+  td { padding: 9px 14px; border-bottom: 1px solid #E5E7EB; }
+  tr:hover td { background: var(--gris-claro); }
+  code { background: #E5E7EB; border-radius: 4px; padding: 2px 6px; font-family: 'Consolas', monospace; font-size: 13px; color: #B91C1C; }
+
+  /* ── EJERCICIO ── */
+  .ejercicio {
+    background: linear-gradient(135deg, #F5F3FF, #EDE9FE);
+    border: 2px solid #DDD6FE;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 20px 0;
+  }
+  .ejercicio .ej-title { font-weight: 800; color: var(--morado); font-size: 15px; margin-bottom: 8px; }
+  .ejercicio ol { padding-left: 20px; }
+  .ejercicio li { margin-bottom: 6px; font-size: 14px; color: #3B0764; }
+
+  /* ── PROGRESO ── */
+  .ruta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin: 20px 0;
+  }
+  .ruta-item {
+    background: #fff;
+    border: 2px solid #E5E7EB;
+    border-radius: 10px;
+    padding: 14px;
+    text-align: center;
+  }
+  .ruta-item .num { font-size: 1.4rem; font-weight: 900; color: var(--azul); }
+  .ruta-item .titulo { font-size: 13px; font-weight: 700; margin-top: 4px; }
+  .ruta-item .desc { font-size: 11px; color: var(--gris-medio); margin-top: 2px; }
+
+  /* ── COMPARATIVA ── */
+  .comparativa {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .comp-col { border-radius: 10px; overflow: hidden; }
+  .comp-header { padding: 10px 14px; font-weight: 800; font-size: 13px; }
+  .comp-body { padding: 12px 14px; font-size: 13px; line-height: 1.6; }
+  .comp-ok .comp-header { background: #D1FAE5; color: #065F46; }
+  .comp-ok .comp-body   { background: #ECFDF5; color: #064E3B; }
+  .comp-mal .comp-header{ background: #FEE2E2; color: #7F1D1D; }
+  .comp-mal .comp-body  { background: #FEF2F2; color: #991B1B; }
+
+  /* ── SEPARADOR ── */
+  .sep { border: none; border-top: 2px solid var(--gris-claro); margin: 40px 0; }
+
+  /* ── GLOSARIO ── */
+  .glosario-item { margin-bottom: 14px; }
+  .glosario-item dt { font-weight: 800; color: var(--azul-oscuro); font-size: 15px; }
+  .glosario-item dd { font-size: 14px; color: #4B5563; padding-left: 16px; margin-top: 2px; }
+
+  /* ── BARRA DE PROGRESO DE LECTURA ── */
+  #barra-progreso {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    width: 0%;
+    background: linear-gradient(90deg, #3B82F6, #8B5CF6, #06B6D4);
+    z-index: 9999;
+    transition: width 0.1s linear;
+    border-radius: 0 2px 2px 0;
+  }
+
+  /* ── MODO OSCURO ── */
+  body.dark-mode {
+    background: #0F172A;
+    color: #E2E8F0;
+  }
+  body.dark-mode .contenido { color: #E2E8F0; }
+  body.dark-mode .capitulo p,
+  body.dark-mode .capitulo li { color: #CBD5E1; }
+  body.dark-mode .modulo-header { border-bottom-color: #1E293B; }
+  body.dark-mode table td { border-bottom-color: #1E293B; }
+  body.dark-mode tr:hover td { background: #1E293B; }
+  body.dark-mode code { background: #1E293B; color: #F472B6; }
+  body.dark-mode .caja.info { background: #1E3A5F; color: #BFDBFE; border-left-color: #3B82F6; }
+  body.dark-mode .caja.ok { background: #064E3B; color: #A7F3D0; border-left-color: #059669; }
+  body.dark-mode .caja.warning { background: #451A03; color: #FDE68A; border-left-color: #D97706; }
+  body.dark-mode .caja.error { background: #450A0A; color: #FCA5A5; border-left-color: #DC2626; }
+  body.dark-mode .caja.morado { background: #2E1065; color: #DDD6FE; border-left-color: #7C3AED; }
+  body.dark-mode .ejercicio { background: linear-gradient(135deg, #1E1B4B, #2D1B69); border-color: #4C1D95; }
+  body.dark-mode .ejercicio li { color: #C4B5FD; }
+  body.dark-mode .ruta-item { background: #1E293B; border-color: #334155; }
+  body.dark-mode .ruta-item .titulo { color: #E2E8F0; }
+  body.dark-mode .sep { border-top-color: #1E293B; }
+  body.dark-mode .glosario-item dt { color: #93C5FD; }
+  body.dark-mode .glosario-item dd { color: #94A3B8; }
+  body.dark-mode .comp-ok .comp-body { background: #052E16; color: #86EFAC; }
+  body.dark-mode .comp-ok .comp-header { background: #14532D; color: #86EFAC; }
+  body.dark-mode .comp-mal .comp-body { background: #450A0A; color: #FCA5A5; }
+  body.dark-mode .comp-mal .comp-header { background: #7F1D1D; color: #FCA5A5; }
+  body.dark-mode th { background: #0F172A; }
+  body.dark-mode .portada { background: linear-gradient(135deg, #0F172A 0%, #1D4ED8 100%); }
+
+  /* ── BOTÓN MODO OSCURO ── */
+  #btn-dark {
+    position: fixed;
+    bottom: 80px;
+    right: 24px;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: none;
+    background: var(--azul-oscuro);
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    z-index: 200;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.2s, background 0.2s;
+  }
+  #btn-dark:hover { transform: scale(1.1); }
+  body.dark-mode #btn-dark { background: #334155; }
+
+  /* ── BOTÓN VOLVER ARRIBA ── */
+  #btn-top {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: none;
+    background: var(--azul);
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(37,99,235,0.4);
+    z-index: 200;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.25s, transform 0.25s, background 0.2s;
+    pointer-events: none;
+  }
+  #btn-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  #btn-top:hover { background: var(--azul-oscuro); }
+
+  /* ── BOTÓN HAMBURGUESA (móvil) ── */
+  #btn-menu {
+    display: none;
+    position: fixed;
+    top: 14px; left: 14px;
+    width: 40px; height: 40px;
+    border-radius: 8px;
+    border: none;
+    background: var(--azul-oscuro);
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    z-index: 300;
+    align-items: center; justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+
+  /* ── SIDEBAR: deslizador personalizado ── */
+  .sidebar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(96,165,250,0.4) transparent;
+  }
+  .sidebar::-webkit-scrollbar { width: 5px; }
+  .sidebar::-webkit-scrollbar-track { background: transparent; }
+  .sidebar::-webkit-scrollbar-thumb {
+    background: rgba(96,165,250,0.35);
+    border-radius: 10px;
+  }
+  .sidebar::-webkit-scrollbar-thumb:hover { background: rgba(96,165,250,0.7); }
+
+  /* Indicador de sección activa animado */
+  .sidebar a.activo {
+    position: relative;
+    animation: pulsoActivo 0.3s ease;
+  }
+  @keyframes pulsoActivo {
+    0% { background: rgba(96,165,250,0.35); }
+    100% { background: rgba(96,165,250,0.15); }
+  }
+
+  /* ── BOTÓN COPIAR CÓDIGO ── */
+  .code-block { position: relative; }
+  .btn-copiar {
+    position: absolute;
+    top: 8px; right: 8px;
+    padding: 4px 10px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 6px;
+    color: #94A3B8;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: background 0.15s, color 0.15s;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    z-index: 10;
+  }
+  .btn-copiar:hover { background: rgba(255,255,255,0.18); color: #fff; }
+  .btn-copiar.copiado { color: #86EFAC; border-color: #86EFAC; }
+
+  /* ── GRUPOS PLEGABLES DEL SIDEBAR ── */
+  .nav-grupo { border-bottom: 1px solid rgba(255,255,255,0.06); }
+
+  .nav-grupo-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 11px 20px;
+    background: none;
+    border: none;
+    color: #60A5FA;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.15s;
+    gap: 8px;
+  }
+  .nav-grupo-btn:hover { background: rgba(255,255,255,0.04); }
+  .nav-grupo-btn span:first-child { display: flex; align-items: center; gap: 7px; }
+
+  .nav-chevron {
+    font-size: 13px;
+    transition: transform 0.25s cubic-bezier(0.4,0,0.2,1);
+    flex-shrink: 0;
+    color: rgba(96,165,250,0.6);
+  }
+  .nav-grupo:not(.abierto) .nav-chevron { transform: rotate(-90deg); }
+
+  .nav-grupo-links {
+    overflow: hidden;
+    max-height: 500px;
+    transition: max-height 0.3s cubic-bezier(0.4,0,0.2,1), opacity 0.2s;
+    opacity: 1;
+  }
+  .nav-grupo:not(.abierto) .nav-grupo-links { max-height: 0; opacity: 0; }
+
+  /* Badges de módulo en sidebar */
+  .nav-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px; height: 18px;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 900;
+    flex-shrink: 0;
+  }
+  .html-badge { background: #7F1D1D; color: #FCA5A5; }
+  .css-badge  { background: #1E3A8A; color: #93C5FD; }
+  .js-badge   { background: #713F12; color: #FDE68A; font-size: 8px; }
+  .proj-badge { background: #3B0764; color: #C4B5FD; }
+
+  /* ── RESPONSIVE: TABLET (769px – 1024px) ── */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    :root { --sidebar-w: 240px; }
+
+    .contenido {
+      max-width: 100%;
+      padding: 32px 28px 60px;
+    }
+
+    .portada { padding: 32px; }
+    .portada h1 { font-size: 1.7rem; }
+
+    .ruta { grid-template-columns: repeat(3, 1fr); }
+
+    .comparativa { grid-template-columns: 1fr 1fr; }
+
+    pre { font-size: 12.5px; padding: 16px; }
+
+    table { font-size: 13px; }
+
+    .portada .stats { gap: 16px; }
+    .portada .stat .n { font-size: 1.4rem; }
+
+    .modulo-header h2 { font-size: 1.35rem; }
+
+    /* Botones flotantes más pequeños en tablet */
+    #btn-dark, #btn-top {
+      width: 40px; height: 40px;
+      font-size: 16px;
+      right: 16px;
+    }
+    #btn-dark { bottom: 68px; }
+    #btn-top { bottom: 16px; }
+  }
+
+  /* ── RESPONSIVE: MÓVIL (≤ 768px) ── */
+  @media (max-width: 768px) {
+    :root { --sidebar-w: min(280px, 85vw); }
+
+    .sidebar {
+      display: block;
+      transform: translateX(-100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      /* Aseguramos que todos los grupos estén visibles al abrir */
+    }
+    .sidebar.abierto { transform: translateX(0); }
+
+    .contenido {
+      margin-left: 0;
+      padding: 70px 16px 60px;
+      max-width: 100%;
+    }
+
+    .comparativa { grid-template-columns: 1fr; }
+    .portada { padding: 24px 20px; }
+    .portada h1 { font-size: 1.5rem; }
+    .portada .stats { flex-wrap: wrap; gap: 12px; }
+    .portada .stat .n { font-size: 1.4rem; }
+    .portada p { font-size: 14px; }
+
+    .ruta { grid-template-columns: repeat(2, 1fr); }
+
+    .modulo-header h2 { font-size: 1.25rem; }
+    .capitulo h3 { font-size: 1rem; }
+
+    pre { font-size: 12px; padding: 14px; overflow-x: auto; }
+    table { font-size: 13px; }
+    th, td { padding: 8px 10px; }
+
+    .portada .badge { font-size: 11px; }
+
+    #btn-menu { display: flex; }
+
+    /* Botones flotantes más pequeños */
+    #btn-dark, #btn-top {
+      width: 40px; height: 40px;
+      font-size: 15px;
+      right: 14px;
+    }
+    #btn-dark { bottom: 66px; }
+    #btn-top  { bottom: 14px; }
+  }
+
+  /* ── RESPONSIVE: MÓVIL PEQUEÑO (≤ 380px) ── */
+  @media (max-width: 380px) {
+    .ruta { grid-template-columns: 1fr; }
+    .portada { padding: 18px 14px; }
+    .contenido { padding: 65px 12px 50px; }
+  }
+
+  /* Overlay móvil / tablet */
+  #sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 99;
+    backdrop-filter: blur(2px);
+  }
+  #sidebar-overlay.visible { display: block; }
+</style>
+</head>
+<body>
+
+<!-- Barra de progreso de lectura -->
+<div id="barra-progreso"></div>
+
+<!-- Botón hamburguesa (móvil) -->
+<button id="btn-menu" onclick="toggleSidebar()" aria-label="Abrir menú">☰</button>
+
+<!-- Overlay oscuro (móvil) -->
+<div id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+<!-- Botón modo oscuro -->
+<button id="btn-dark" onclick="toggleDark()" title="Modo oscuro / claro">🌙</button>
+
+<!-- Botón volver arriba -->
+<button id="btn-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Volver arriba">↑</button>
+
+<!-- ════════════════════════════════════════════════════
+     SIDEBAR
+════════════════════════════════════════════════════ -->
+<nav class="sidebar">
+  <div class="sidebar-header">
+    <h2>Guía Web desde Cero</h2>
+    <p>HTML · CSS · JavaScript</p>
+  </div>
+
+  <!-- Grupo plegable: Inicio -->
+  <div class="nav-grupo abierto" data-grupo="inicio">
+    <button class="nav-grupo-btn" onclick="toggleGrupo('inicio')">
+      <span>Inicio</span><span class="nav-chevron">▾</span>
+    </button>
+    <div class="nav-grupo-links">
+      <a href="#portada">📖 Presentación</a>
+      <a href="#ruta">🗺️ Ruta de aprendizaje</a>
+      <a href="#herramientas">🛠️ Herramientas</a>
+    </div>
+  </div>
+
+  <!-- Grupo plegable: Módulo 1 HTML -->
+  <div class="nav-grupo abierto" data-grupo="html">
+    <button class="nav-grupo-btn" onclick="toggleGrupo('html')">
+      <span><span class="nav-badge html-badge">H</span> Módulo 1 — HTML</span><span class="nav-chevron">▾</span>
+    </button>
+    <div class="nav-grupo-links">
+      <a href="#html-intro">¿Qué es HTML?</a>
+      <a href="#html-etiquetas">Etiquetas básicas</a>
+      <a href="#html-atributos">Atributos</a>
+      <a href="#html-estructura">Estructura de página</a>
+      <a href="#html-div">Div y agrupación</a>
+      <a href="#html-formularios">Formularios e inputs</a>
+      <a href="#html-ejercicio">Ejercicio práctico</a>
+    </div>
+  </div>
+
+  <!-- Grupo plegable: Módulo 2 CSS -->
+  <div class="nav-grupo abierto" data-grupo="css">
+    <button class="nav-grupo-btn" onclick="toggleGrupo('css')">
+      <span><span class="nav-badge css-badge">C</span> Módulo 2 — CSS</span><span class="nav-chevron">▾</span>
+    </button>
+    <div class="nav-grupo-links">
+      <a href="#css-intro">¿Qué es CSS?</a>
+      <a href="#css-selectores">Selectores</a>
+      <a href="#css-propiedades">Propiedades esenciales</a>
+      <a href="#css-caja">El modelo de caja</a>
+      <a href="#css-flexbox">Flexbox</a>
+      <a href="#css-grid">Grid</a>
+      <a href="#css-variables">Variables CSS</a>
+      <a href="#css-responsive">Diseño responsive</a>
+      <a href="#css-ejercicio">Ejercicio práctico</a>
+    </div>
+  </div>
+
+  <!-- Grupo plegable: Módulo 3 JS -->
+  <div class="nav-grupo abierto" data-grupo="js">
+    <button class="nav-grupo-btn" onclick="toggleGrupo('js')">
+      <span><span class="nav-badge js-badge">JS</span> Módulo 3 — JavaScript</span><span class="nav-chevron">▾</span>
+    </button>
+    <div class="nav-grupo-links">
+      <a href="#js-intro">¿Qué es JavaScript?</a>
+      <a href="#js-variables">Variables y tipos</a>
+      <a href="#js-operadores">Operadores</a>
+      <a href="#js-condicionales">Condicionales</a>
+      <a href="#js-bucles">Bucles</a>
+      <a href="#js-funciones">Funciones</a>
+      <a href="#js-arrays">Arrays</a>
+      <a href="#js-objetos">Objetos</a>
+      <a href="#js-dom">Manipular el DOM</a>
+      <a href="#js-eventos">Eventos</a>
+      <a href="#js-ejercicio">Ejercicio práctico</a>
+    </div>
+  </div>
+
+  <!-- Grupo plegable: Módulo 4 Proyecto -->
+  <div class="nav-grupo abierto" data-grupo="proyecto">
+    <button class="nav-grupo-btn" onclick="toggleGrupo('proyecto')">
+      <span><span class="nav-badge proj-badge">P</span> Módulo 4 — Proyecto</span><span class="nav-chevron">▾</span>
+    </button>
+    <div class="nav-grupo-links">
+      <a href="#proyecto-quiz">Construir un quiz</a>
+      <a href="#proyecto-tarjetas">Tarjetas interactivas</a>
+      <a href="#proyecto-drag">Drag &amp; Drop</a>
+    </div>
+  </div>
+
+  <!-- Grupo plegable: Referencia -->
+  <div class="nav-grupo abierto" data-grupo="ref">
+    <button class="nav-grupo-btn" onclick="toggleGrupo('ref')">
+      <span>Referencia</span><span class="nav-chevron">▾</span>
+    </button>
+    <div class="nav-grupo-links">
+      <a href="#glosario">📚 Glosario</a>
+      <a href="#recursos">🔗 Recursos recomendados</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════════════════════
+     CONTENIDO
+════════════════════════════════════════════════════ -->
+<main class="contenido">
+
+  <!-- PORTADA -->
+  <div class="portada" id="portada">
+    <div class="badge">📘 Guía autodidacta completa</div>
+    <h1>Desarrollo Web desde Cero</h1>
+    <p>Aprende HTML, CSS y JavaScript de forma estructurada, con ejemplos reales y ejercicios prácticos. Sin requisitos previos.</p>
+    <div class="stats">
+      <div class="stat"><div class="n">3</div><div class="l">Tecnologías</div></div>
+      <div class="stat"><div class="n">4</div><div class="l">Módulos</div></div>
+      <div class="stat"><div class="n">30+</div><div class="l">Ejemplos de código</div></div>
+      <div class="stat"><div class="n">8</div><div class="l">Ejercicios prácticos</div></div>
+    </div>
+  </div>
+
+  <!-- RUTA DE APRENDIZAJE -->
+  <div class="modulo" id="ruta">
+    <div class="modulo-header">
+      <div class="modulo-num tips">🗺️</div>
+      <div><h2>Ruta de aprendizaje</h2><p>El orden correcto para no perderte</p></div>
+    </div>
+    <div class="ruta">
+      <div class="ruta-item"><div class="num">1</div><div class="titulo">HTML</div><div class="desc">La estructura y el contenido</div></div>
+      <div class="ruta-item"><div class="num">2</div><div class="titulo">CSS básico</div><div class="desc">Colores, tipografía, espacio</div></div>
+      <div class="ruta-item"><div class="num">3</div><div class="titulo">CSS avanzado</div><div class="desc">Flexbox, Grid, responsive</div></div>
+      <div class="ruta-item"><div class="num">4</div><div class="titulo">JS básico</div><div class="desc">Variables, funciones, lógica</div></div>
+      <div class="ruta-item"><div class="num">5</div><div class="titulo">JS + DOM</div><div class="desc">Modificar la página en tiempo real</div></div>
+      <div class="ruta-item"><div class="num">6</div><div class="titulo">Proyectos</div><div class="desc">Quiz, tarjetas, drag & drop</div></div>
+    </div>
+    <div class="caja info">💡 <b>Consejo:</b> No saltes pasos. Cada módulo se apoya en el anterior. Si algo no queda claro, reléelo antes de continuar.</div>
+  </div>
+
+  <!-- HERRAMIENTAS -->
+  <div class="modulo" id="herramientas">
+    <div class="modulo-header">
+      <div class="modulo-num tips">🛠️</div>
+      <div><h2>Herramientas que necesitas</h2><p>Todo es gratuito</p></div>
+    </div>
+    <div class="capitulo">
+      <h3>Editor de código</h3>
+      <p>El editor recomendado es <b>Visual Studio Code</b> (VS Code). Es gratuito, potente y tiene millones de usuarios. Descárgalo en <code>code.visualstudio.com</code>.</p>
+      <p style="margin-top:10px;">Extensiones útiles para instalar en VS Code:</p>
+      <ul>
+        <li><b>Prettier</b> — formatea tu código automáticamente</li>
+        <li><b>Live Server</b> — recarga el navegador al guardar (esencial)</li>
+        <li><b>Auto Rename Tag</b> — renombra la etiqueta de cierre automáticamente</li>
+      </ul>
+    </div>
+    <div class="capitulo">
+      <h3>Navegador</h3>
+      <p>Usa <b>Google Chrome</b> o <b>Firefox</b>. Ambos tienen las <b>DevTools</b> (herramientas de desarrollador), que se abren con <code>F12</code>. Son imprescindibles para depurar tu código.</p>
+      <div class="caja ok">✅ <b>Primer flujo de trabajo:</b> Crea un archivo <code>index.html</code> → ábrelo en VS Code → instala Live Server → haz clic en "Go Live" en la barra inferior → el navegador se abrirá automáticamente y se actualizará cada vez que guardes.</div>
+    </div>
+  </div>
+
+  <hr class="sep">
+
+  <!-- ══════════════════════════════════════
+       MÓDULO 1 — HTML
+  ══════════════════════════════════════ -->
+  <div class="modulo" id="html-intro">
+    <div class="modulo-header">
+      <div class="modulo-num html">H</div>
+      <div><h2>Módulo 1 — HTML</h2><p>HyperText Markup Language — La estructura de toda página web</p></div>
+    </div>
+    <div class="capitulo">
+      <h3>¿Qué es HTML?</h3>
+      <p>HTML no es un lenguaje de programación, es un <b>lenguaje de marcado</b>. Su función es describir el contenido y la estructura de una página: qué es un título, qué es un párrafo, qué es un botón. No controla el diseño ni el comportamiento, solo el significado de cada elemento.</p>
+      <div class="caja info">💡 Analogía: HTML es el esqueleto de un edificio. Define qué hay y dónde, pero no el color de las paredes ni si las puertas se abren solas.</div>
+    </div>
+  </div>
+
+  <div class="modulo" id="html-etiquetas">
+    <div class="capitulo">
+      <h3>Etiquetas básicas</h3>
+      <p>Todo en HTML son <b>etiquetas</b>. La mayoría tienen apertura y cierre:</p>
+      <div class="code-block">
+        <div class="code-label html-label">HTML</div>
+        <pre><span class="c-tag">&lt;h1&gt;</span>Título principal<span class="c-tag">&lt;/h1&gt;</span>
+<span class="c-tag">&lt;h2&gt;</span>Subtítulo<span class="c-tag">&lt;/h2&gt;</span>
+<span class="c-tag">&lt;h3&gt;</span>Título de sección<span class="c-tag">&lt;/h3&gt;</span>   <span class="c-cmt">&lt;!-- Hasta h6 --&gt;</span>
+
+<span class="c-tag">&lt;p&gt;</span>Esto es un párrafo de texto normal.<span class="c-tag">&lt;/p&gt;</span>
+
+<span class="c-tag">&lt;strong&gt;</span>Texto en negrita<span class="c-tag">&lt;/strong&gt;</span>
+<span class="c-tag">&lt;em&gt;</span>Texto en cursiva<span class="c-tag">&lt;/em&gt;</span>
+
+<span class="c-tag">&lt;ul&gt;</span>                          <span class="c-cmt">&lt;!-- Lista sin orden --&gt;</span>
+  <span class="c-tag">&lt;li&gt;</span>Primer elemento<span class="c-tag">&lt;/li&gt;</span>
+  <span class="c-tag">&lt;li&gt;</span>Segundo elemento<span class="c-tag">&lt;/li&gt;</span>
+<span class="c-tag">&lt;/ul&gt;</span>
+
+<span class="c-tag">&lt;ol&gt;</span>                          <span class="c-cmt">&lt;!-- Lista numerada --&gt;</span>
+  <span class="c-tag">&lt;li&gt;</span>Primero<span class="c-tag">&lt;/li&gt;</span>
+  <span class="c-tag">&lt;li&gt;</span>Segundo<span class="c-tag">&lt;/li&gt;</span>
+<span class="c-tag">&lt;/ol&gt;</span>
+
+<span class="c-tag">&lt;a</span> <span class="c-attr">href</span>=<span class="c-val">"https://ejemplo.com"</span><span class="c-tag">&gt;</span>Enlace<span class="c-tag">&lt;/a&gt;</span>
+<span class="c-tag">&lt;img</span> <span class="c-attr">src</span>=<span class="c-val">"foto.jpg"</span> <span class="c-attr">alt</span>=<span class="c-val">"Descripción"</span><span class="c-tag">&gt;</span>  <span class="c-cmt">&lt;!-- img no tiene cierre --&gt;</span>
+
+<span class="c-tag">&lt;button&gt;</span>Pulsa aquí<span class="c-tag">&lt;/button&gt;</span>
+<span class="c-tag">&lt;hr&gt;</span>                          <span class="c-cmt">&lt;!-- Línea horizontal (sin cierre) --&gt;</span>
+<span class="c-tag">&lt;br&gt;</span>                          <span class="c-cmt">&lt;!-- Salto de línea (sin cierre) --&gt;</span></pre>
+      </div>
+      <table>
+        <tr><th>Etiqueta</th><th>Para qué sirve</th><th>¿Tiene cierre?</th></tr>
+        <tr><td><code>&lt;h1&gt;–&lt;h6&gt;</code></td><td>Títulos (h1 el más grande, h6 el más pequeño)</td><td>Sí</td></tr>
+        <tr><td><code>&lt;p&gt;</code></td><td>Párrafo de texto</td><td>Sí</td></tr>
+        <tr><td><code>&lt;div&gt;</code></td><td>Contenedor genérico (sin significado visual propio)</td><td>Sí</td></tr>
+        <tr><td><code>&lt;span&gt;</code></td><td>Contenedor en línea (dentro de un texto)</td><td>Sí</td></tr>
+        <tr><td><code>&lt;a&gt;</code></td><td>Enlace (href = destino)</td><td>Sí</td></tr>
+        <tr><td><code>&lt;img&gt;</code></td><td>Imagen (src = ruta, alt = descripción)</td><td>No</td></tr>
+        <tr><td><code>&lt;button&gt;</code></td><td>Botón interactivo</td><td>Sí</td></tr>
+        <tr><td><code>&lt;ul&gt; / &lt;ol&gt;</code></td><td>Lista sin orden / lista numerada</td><td>Sí</td></tr>
+        <tr><td><code>&lt;li&gt;</code></td><td>Elemento de lista (siempre dentro de ul u ol)</td><td>Sí</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="modulo" id="html-atributos">
+    <div class="capitulo">
+      <h3>Atributos</h3>
+      <p>Los atributos son información extra que se añade dentro de la etiqueta de apertura. Siempre tienen el formato <code>nombre="valor"</code>:</p>
+      <div class="code-block">
+        <div class="code-label html-label">HTML</div>
+        <pre><span class="c-cmt">&lt;!-- id: identificador único en toda la página --&gt;</span>
+<span class="c-tag">&lt;div</span> <span class="c-attr">id</span>=<span class="c-val">"mi-caja"</span><span class="c-tag">&gt;</span>...<span class="c-tag">&lt;/div&gt;</span>
+
+<span class="c-cmt">&lt;!-- class: categoría reutilizable, puede repetirse --&gt;</span>
+<span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"tarjeta"</span><span class="c-tag">&gt;</span>...<span class="c-tag">&lt;/div&gt;</span>
+<span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"tarjeta activa"</span><span class="c-tag">&gt;</span>...<span class="c-tag">&lt;/div&gt;</span>  <span class="c-cmt">&lt;!-- varias clases separadas por espacio --&gt;</span>
+
+<span class="c-cmt">&lt;!-- onclick: JavaScript que se ejecuta al hacer clic --&gt;</span>
+<span class="c-tag">&lt;button</span> <span class="c-attr">onclick</span>=<span class="c-val">"saludar()"</span><span class="c-tag">&gt;</span>Hola<span class="c-tag">&lt;/button&gt;</span>
+
+<span class="c-cmt">&lt;!-- style: CSS directo en el elemento (evitar en lo posible) --&gt;</span>
+<span class="c-tag">&lt;p</span> <span class="c-attr">style</span>=<span class="c-val">"color: red; font-size: 20px;"</span><span class="c-tag">&gt;</span>Texto rojo<span class="c-tag">&lt;/p&gt;</span>
+
+<span class="c-cmt">&lt;!-- href: destino de un enlace --&gt;</span>
+<span class="c-tag">&lt;a</span> <span class="c-attr">href</span>=<span class="c-val">"pagina2.html"</span><span class="c-tag">&gt;</span>Ir a la página 2<span class="c-tag">&lt;/a&gt;</span>
+
+<span class="c-cmt">&lt;!-- disabled: deshabilita el botón --&gt;</span>
+<span class="c-tag">&lt;button</span> <span class="c-attr">disabled</span><span class="c-tag">&gt;</span>No se puede pulsar<span class="c-tag">&lt;/button&gt;</span></pre>
+      </div>
+      <div class="caja warning">⚠️ <b>id vs class:</b> El <code>id</code> debe ser único (solo un elemento puede tener ese id). La <code>class</code> se puede repetir en tantos elementos como quieras. Usa id para identificar un elemento específico, y class para grupos de elementos con el mismo estilo.</div>
+    </div>
+  </div>
+
+  <div class="modulo" id="html-estructura">
+    <div class="capitulo">
+      <h3>Estructura de una página completa</h3>
+      <p>Todo archivo HTML válido tiene esta estructura base. Nunca la omitas:</p>
+      <div class="code-block">
+        <div class="code-label html-label">HTML — estructura base obligatoria</div>
+        <pre><span class="c-tag">&lt;!DOCTYPE html&gt;</span>              <span class="c-cmt">&lt;!-- Indica al navegador que es HTML5 --&gt;</span>
+<span class="c-tag">&lt;html</span> <span class="c-attr">lang</span>=<span class="c-val">"es"</span><span class="c-tag">&gt;</span>               <span class="c-cmt">&lt;!-- Raíz del documento, lang = idioma --&gt;</span>
+<span class="c-tag">&lt;head&gt;</span>                         <span class="c-cmt">&lt;!-- Información de la página (no visible) --&gt;</span>
+  <span class="c-tag">&lt;meta</span> <span class="c-attr">charset</span>=<span class="c-val">"UTF-8"</span><span class="c-tag">&gt;</span>      <span class="c-cmt">&lt;!-- Permite tildes y ñ --&gt;</span>
+  <span class="c-tag">&lt;meta</span> <span class="c-attr">name</span>=<span class="c-val">"viewport"</span> <span class="c-attr">content</span>=<span class="c-val">"width=device-width, initial-scale=1.0"</span><span class="c-tag">&gt;</span>
+  <span class="c-tag">&lt;title&gt;</span>Mi primera página<span class="c-tag">&lt;/title&gt;</span>
+  <span class="c-tag">&lt;style&gt;</span>
+    <span class="c-cmt">/* Aquí va el CSS */</span>
+  <span class="c-tag">&lt;/style&gt;</span>
+<span class="c-tag">&lt;/head&gt;</span>
+<span class="c-tag">&lt;body&gt;</span>                         <span class="c-cmt">&lt;!-- Todo lo visible va aquí --&gt;</span>
+
+  <span class="c-tag">&lt;h1&gt;</span>Hola, mundo<span class="c-tag">&lt;/h1&gt;</span>
+  <span class="c-tag">&lt;p&gt;</span>Mi primera página web.<span class="c-tag">&lt;/p&gt;</span>
+
+  <span class="c-tag">&lt;script&gt;</span>
+    <span class="c-cmt">// Aquí va el JavaScript</span>
+  <span class="c-tag">&lt;/script&gt;</span>
+<span class="c-tag">&lt;/body&gt;</span>
+<span class="c-tag">&lt;/html&gt;</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="modulo" id="html-div">
+    <div class="capitulo">
+      <h3>Div y agrupación — la clave de la maquetación</h3>
+      <p>El elemento <code>&lt;div&gt;</code> es una caja invisible que sirve para agrupar otros elementos. Es la base de toda maquetación web moderna:</p>
+      <div class="code-block">
+        <div class="code-label html-label">HTML</div>
+        <pre><span class="c-cmt">&lt;!-- Sin agrupar: difícil de controlar con CSS --&gt;</span>
+<span class="c-tag">&lt;h2&gt;</span>Título<span class="c-tag">&lt;/h2&gt;</span>
+<span class="c-tag">&lt;p&gt;</span>Texto<span class="c-tag">&lt;/p&gt;</span>
+<span class="c-tag">&lt;button&gt;</span>Acción<span class="c-tag">&lt;/button&gt;</span>
+
+<span class="c-cmt">&lt;!-- Con div: puedo dar estilo a la tarjeta entera --&gt;</span>
+<span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"tarjeta"</span><span class="c-tag">&gt;</span>
+  <span class="c-tag">&lt;h2&gt;</span>Título<span class="c-tag">&lt;/h2&gt;</span>
+  <span class="c-tag">&lt;p&gt;</span>Texto<span class="c-tag">&lt;/p&gt;</span>
+  <span class="c-tag">&lt;button&gt;</span>Acción<span class="c-tag">&lt;/button&gt;</span>
+<span class="c-tag">&lt;/div&gt;</span>
+
+<span class="c-cmt">&lt;!-- Anidación: divs dentro de divs --&gt;</span>
+<span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"contenedor"</span><span class="c-tag">&gt;</span>
+  <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"tarjeta"</span><span class="c-tag">&gt;</span>
+    <span class="c-tag">&lt;h2&gt;</span>Tarjeta 1<span class="c-tag">&lt;/h2&gt;</span>
+  <span class="c-tag">&lt;/div&gt;</span>
+  <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"tarjeta"</span><span class="c-tag">&gt;</span>
+    <span class="c-tag">&lt;h2&gt;</span>Tarjeta 2<span class="c-tag">&lt;/h2&gt;</span>
+  <span class="c-tag">&lt;/div&gt;</span>
+<span class="c-tag">&lt;/div&gt;</span></pre>
+      </div>
+      <div class="caja info">💡 <b>Regla de oro:</b> Cuando quieras que un grupo de elementos se comporte como una unidad (mismo fondo, mismo borde, mismo posicionamiento), envuélvelos en un <code>&lt;div&gt;</code>.</div>
+    </div>
+  </div>
+
+  <div class="modulo" id="html-formularios">
+    <div class="capitulo">
+      <h3>Inputs y controles de usuario</h3>
+      <p>Aunque no uses formularios completos, los <b>inputs</b> son esenciales para recoger datos del usuario:</p>
+      <div class="code-block">
+        <div class="code-label html-label">HTML</div>
+        <pre><span class="c-cmt">&lt;!-- Texto libre --&gt;</span>
+<span class="c-tag">&lt;input</span> <span class="c-attr">type</span>=<span class="c-val">"text"</span> <span class="c-attr">id</span>=<span class="c-val">"nombre"</span> <span class="c-attr">placeholder</span>=<span class="c-val">"Escribe tu nombre"</span><span class="c-tag">&gt;</span>
+
+<span class="c-cmt">&lt;!-- Número --&gt;</span>
+<span class="c-tag">&lt;input</span> <span class="c-attr">type</span>=<span class="c-val">"number"</span> <span class="c-attr">min</span>=<span class="c-val">"0"</span> <span class="c-attr">max</span>=<span class="c-val">"100"</span><span class="c-tag">&gt;</span>
+
+<span class="c-cmt">&lt;!-- Casilla de verificación --&gt;</span>
+<span class="c-tag">&lt;input</span> <span class="c-attr">type</span>=<span class="c-val">"checkbox"</span> <span class="c-attr">id</span>=<span class="c-val">"acepto"</span><span class="c-tag">&gt;</span>
+<span class="c-tag">&lt;label</span> <span class="c-attr">for</span>=<span class="c-val">"acepto"</span><span class="c-tag">&gt;</span>Acepto los términos<span class="c-tag">&lt;/label&gt;</span>
+
+<span class="c-cmt">&lt;!-- Selector --&gt;</span>
+<span class="c-tag">&lt;select</span> <span class="c-attr">id</span>=<span class="c-val">"isla"</span><span class="c-tag">&gt;</span>
+  <span class="c-tag">&lt;option</span> <span class="c-attr">value</span>=<span class="c-val">"tenerife"</span><span class="c-tag">&gt;</span>Tenerife<span class="c-tag">&lt;/option&gt;</span>
+  <span class="c-tag">&lt;option</span> <span class="c-attr">value</span>=<span class="c-val">"gran-canaria"</span><span class="c-tag">&gt;</span>Gran Canaria<span class="c-tag">&lt;/option&gt;</span>
+<span class="c-tag">&lt;/select&gt;</span>
+
+<span class="c-cmt">&lt;!-- Área de texto largo --&gt;</span>
+<span class="c-tag">&lt;textarea</span> <span class="c-attr">rows</span>=<span class="c-val">"4"</span> <span class="c-attr">placeholder</span>=<span class="c-val">"Escribe aquí..."</span><span class="c-tag">&gt;&lt;/textarea&gt;</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="modulo" id="html-ejercicio">
+    <div class="ejercicio">
+      <div class="ej-title">✏️ Ejercicio 1 — Tu primera página</div>
+      <p style="font-size:14px;color:#3B0764;margin-bottom:10px;">Crea un archivo <code>index.html</code> con la estructura base y añade:</p>
+      <ol>
+        <li>Un título <code>&lt;h1&gt;</code> con tu nombre</li>
+        <li>Un subtítulo <code>&lt;h2&gt;</code> que diga "Mis hobbies"</li>
+        <li>Una lista <code>&lt;ul&gt;</code> con 3 hobbies</li>
+        <li>Un párrafo sobre ti</li>
+        <li>Un botón con el texto "Haz clic"</li>
+        <li>Agrupa todo dentro de un <code>&lt;div class="contenido"&gt;</code></li>
+      </ol>
+    </div>
+  </div>
+
+  <hr class="sep">
+
+  <!-- ══════════════════════════════════════
+       MÓDULO 2 — CSS
+  ══════════════════════════════════════ -->
+  <div class="modulo" id="css-intro">
+    <div class="modulo-header">
+      <div class="modulo-num css">C</div>
+      <div><h2>Módulo 2 — CSS</h2><p>Cascading Style Sheets — El diseño visual de la página</p></div>
+    </div>
+    <div class="capitulo">
+      <h3>¿Qué es CSS?</h3>
+      <p>CSS controla el aspecto visual: colores, tamaños, tipografía, espaciado, posición de los elementos. Sin CSS, toda página web sería texto negro sobre fondo blanco.</p>
+      <p style="margin-top:10px;">CSS se escribe en el <code>&lt;head&gt;</code> dentro de etiquetas <code>&lt;style&gt;</code>, o en un archivo separado <code>.css</code>.</p>
+      <div class="caja info">💡 La palabra "Cascading" (en cascada) significa que los estilos se heredan: un elemento hijo hereda el color de fuente de su padre, a menos que lo sobreescriba.</div>
+    </div>
+  </div>
+
+  <div class="modulo" id="css-selectores">
+    <div class="capitulo">
+      <h3>Selectores — a quién afecta el estilo</h3>
+      <div class="code-block">
+        <div class="code-label css-label">CSS</div>
+        <pre><span class="c-cmt">/* Por etiqueta — afecta a TODOS los párrafos */</span>
+<span class="c-sel">p</span> {
+  <span class="c-prop">color</span>: <span class="c-val">gray</span>;
+}
+
+<span class="c-cmt">/* Por clase — afecta a todo lo que tenga class="tarjeta" */</span>
+<span class="c-sel">.tarjeta</span> {
+  <span class="c-prop">background</span>: <span class="c-val">white</span>;
+  <span class="c-prop">border-radius</span>: <span class="c-unit">12px</span>;
+}
+
+<span class="c-cmt">/* Por id — afecta solo al elemento con id="cabecera" */</span>
+<span class="c-sel">#cabecera</span> {
+  <span class="c-prop">background</span>: <span class="c-val">navy</span>;
+}
+
+<span class="c-cmt">/* Descendiente — p que esté DENTRO de .tarjeta */</span>
+<span class="c-sel">.tarjeta p</span> {
+  <span class="c-prop">font-size</span>: <span class="c-unit">14px</span>;
+}
+
+<span class="c-cmt">/* Varios selectores a la vez — separados por coma */</span>
+<span class="c-sel">h1, h2, h3</span> {
+  <span class="c-prop">font-family</span>: <span class="c-val">Arial, sans-serif</span>;
+}
+
+<span class="c-cmt">/* Estado hover — cuando el ratón está encima */</span>
+<span class="c-sel">button:hover</span> {
+  <span class="c-prop">background</span>: <span class="c-val">darkblue</span>;
+}</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="modulo" id="css-propiedades">
+    <div class="capitulo">
+      <h3>Propiedades esenciales</h3>
+      <div class="code-block">
+        <div class="code-label css-label">CSS — Tipografía</div>
+        <pre><span class="c-sel">p</span> {
+  <span class="c-prop">color</span>: <span class="c-val">#333333</span>;            <span class="c-cmt">/* Color del texto */</span>
+  <span class="c-prop">font-size</span>: <span class="c-unit">16px</span>;          <span class="c-cmt">/* Tamaño del texto */</span>
+  <span class="c-prop">font-weight</span>: <span class="c-val">bold</span>;         <span class="c-cmt">/* Grosor: normal, bold, 100-900 */</span>
+  <span class="c-prop">font-family</span>: <span class="c-val">Arial, sans-serif</span>; <span class="c-cmt">/* Tipo de letra */</span>
+  <span class="c-prop">line-height</span>: <span class="c-unit">1.6</span>;          <span class="c-cmt">/* Altura de línea (sin unidad = relativo) */</span>
+  <span class="c-prop">text-align</span>: <span class="c-val">center</span>;        <span class="c-cmt">/* left, center, right, justify */</span>
+  <span class="c-prop">text-decoration</span>: <span class="c-val">none</span>;     <span class="c-cmt">/* none, underline, line-through */</span>
+}</pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label css-label">CSS — Fondo y bordes</div>
+        <pre><span class="c-sel">.caja</span> {
+  <span class="c-prop">background</span>: <span class="c-val">#F3F4F6</span>;        <span class="c-cmt">/* Color de fondo */</span>
+  <span class="c-prop">background</span>: <span class="c-val">linear-gradient(135deg, #667eea, #764ba2)</span>; <span class="c-cmt">/* Degradado */</span>
+  <span class="c-prop">border</span>: <span class="c-unit">2px</span> <span class="c-val">solid</span> <span class="c-val">#E5E7EB</span>;  <span class="c-cmt">/* grosor tipo color */</span>
+  <span class="c-prop">border-radius</span>: <span class="c-unit">12px</span>;        <span class="c-cmt">/* Esquinas redondeadas */</span>
+  <span class="c-prop">border-left</span>: <span class="c-unit">4px</span> <span class="c-val">solid</span> <span class="c-val">blue</span>; <span class="c-cmt">/* Solo borde izquierdo */</span>
+  <span class="c-prop">box-shadow</span>: <span class="c-unit">0</span> <span class="c-unit">4px</span> <span class="c-unit">12px</span> <span class="c-val">rgba(0,0,0,0.1)</span>; <span class="c-cmt">/* Sombra */</span>
+  <span class="c-prop">opacity</span>: <span class="c-num">0.8</span>;               <span class="c-cmt">/* 0 = invisible, 1 = completamente visible */</span>
+}</pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label css-label">CSS — Tamaño y visibilidad</div>
+        <pre><span class="c-sel">.elemento</span> {
+  <span class="c-prop">width</span>: <span class="c-unit">300px</span>;              <span class="c-cmt">/* Ancho fijo */</span>
+  <span class="c-prop">width</span>: <span class="c-unit">100%</span>;              <span class="c-cmt">/* Ancho relativo al padre */</span>
+  <span class="c-prop">max-width</span>: <span class="c-unit">800px</span>;         <span class="c-cmt">/* Máximo ancho */</span>
+  <span class="c-prop">height</span>: <span class="c-unit">200px</span>;             <span class="c-cmt">/* Alto fijo */</span>
+  <span class="c-prop">min-height</span>: <span class="c-unit">50px</span>;          <span class="c-cmt">/* Mínimo alto */</span>
+  <span class="c-prop">display</span>: <span class="c-val">none</span>;             <span class="c-cmt">/* Ocultar completamente */</span>
+  <span class="c-prop">display</span>: <span class="c-val">block</span>;            <span class="c-cmt">/* Mostrar como bloque */</span>
+  <span class="c-prop">cursor</span>: <span class="c-val">pointer</span>;           <span class="c-cmt">/* Cursor de mano al pasar */</span>
+  <span class="c-prop">transition</span>: <span class="c-val">all</span> <span class="c-unit">0.2s</span>;      <span class="c-cmt">/* Animar cambios suavemente */</span>
+}</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="modulo" id="css-caja">
+    <div class="capitulo">
+      <h3>El modelo de caja — el concepto más importante de CSS</h3>
+      <p>Todo elemento HTML es una caja rectangular compuesta por 4 capas:</p>
+      <div style="background:#fff;border:2px solid #E5E7EB;border-radius:12px;padding:20px;margin:16px 0;font-size:14px;">
+        <div style="background:#FEF9C3;border:2px dashed #D97706;border-radius:8px;padding:16px;text-align:center;">
+          <div style="color:#78350F;font-weight:700;margin-bottom:4px;">margin (espacio exterior)</div>
+          <div style="background:#DBEAFE;border:2px dashed #3B82F6;border-radius:6px;padding:14px;text-align:center;">
+            <div style="color:#1E3A8A;font-weight:700;margin-bottom:4px;">border (borde)</div>
+            <div style="background:#DCFCE7;border:2px dashed #22C55E;border-radius:4px;padding:12px;text-align:center;">
+              <div style="color:#14532D;font-weight:700;margin-bottom:4px;">padding (relleno interior)</div>
+              <div style="background:white;border:1px solid #ccc;border-radius:4px;padding:10px;font-weight:800;color:#374151;">CONTENIDO</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="code-block">
+        <div class="code-label css-label">CSS</div>
+        <pre><span class="c-sel">.tarjeta</span> {
+  <span class="c-cmt">/* padding: espacio entre el contenido y el borde */</span>
+  <span class="c-prop">padding</span>: <span class="c-unit">20px</span>;             <span class="c-cmt">/* los 4 lados */</span>
+  <span class="c-prop">padding</span>: <span class="c-unit">10px</span> <span class="c-unit">20px</span>;       <span class="c-cmt">/* arriba/abajo  izq/der */</span>
+  <span class="c-prop">padding-top</span>: <span class="c-unit">10px</span>;        <span class="c-cmt">/* solo arriba */</span>
+
+  <span class="c-cmt">/* margin: espacio fuera del elemento */</span>
+  <span class="c-prop">margin</span>: <span class="c-unit">16px</span>;             <span class="c-cmt">/* los 4 lados */</span>
+  <span class="c-prop">margin</span>: <span class="c-unit">0</span> <span class="c-val">auto</span>;           <span class="c-cmt">/* centrar horizontalmente */</span>
+  <span class="c-prop">margin-bottom</span>: <span class="c-unit">24px</span>;      <span class="c-cmt">/* solo abajo */</span>
+}</pre>
+      </div>
+      <div class="caja warning">⚠️ <b>Error común:</b> Confundir padding y margin. Padding es espacio <em>dentro</em> de la caja (entre el contenido y el borde). Margin es espacio <em>fuera</em> de la caja (entre la caja y otros elementos).</div>
+    </div>
+  </div>
+
+  <div class="modulo" id="css-flexbox">
+    <div class="capitulo">
+      <h3>Flexbox — colocar elementos en fila o columna</h3>
+      <p>Flexbox es el sistema más usado para distribuir elementos. Se activa en el <b>contenedor padre</b>:</p>
+      <div class="code-block">
+        <div class="code-label css-label">CSS</div>
+        <pre><span class="c-sel">.contenedor</span> {
+  <span class="c-prop">display</span>: <span class="c-val">flex</span>;              <span class="c-cmt">/* Activar flexbox */</span>
+  <span class="c-prop">flex-direction</span>: <span class="c-val">row</span>;       <span class="c-cmt">/* row (horizontal) o column (vertical) */</span>
+  <span class="c-prop">gap</span>: <span class="c-unit">16px</span>;                 <span class="c-cmt">/* Espacio entre elementos hijos */</span>
+  <span class="c-prop">justify-content</span>: <span class="c-val">center</span>;  <span class="c-cmt">/* Alineación horizontal: flex-start, center, flex-end, space-between */</span>
+  <span class="c-prop">align-items</span>: <span class="c-val">center</span>;      <span class="c-cmt">/* Alineación vertical: flex-start, center, flex-end */</span>
+  <span class="c-prop">flex-wrap</span>: <span class="c-val">wrap</span>;           <span class="c-cmt">/* Permite que los hijos salten de línea */</span>
+}
+
+<span class="c-sel">.hijo</span> {
+  <span class="c-prop">flex</span>: <span class="c-num">1</span>;                   <span class="c-cmt">/* Ocupa el espacio disponible por igual */</span>
+}</pre>
+      </div>
+      <div class="comparativa">
+        <div class="comp-col comp-ok">
+          <div class="comp-header">✅ Caso de uso ideal</div>
+          <div class="comp-body">Barra de navegación, fila de botones, centrar un elemento, distribución de tarjetas en una fila.</div>
+        </div>
+        <div class="comp-col comp-mal">
+          <div class="comp-header">⚠️ Cuando no usarlo</div>
+          <div class="comp-body">Layouts complejos de dos dimensiones (filas Y columnas a la vez). Para eso usa Grid.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modulo" id="css-grid">
+    <div class="capitulo">
+      <h3>Grid — cuadrículas de filas y columnas</h3>
+      <div class="code-block">
+        <div class="code-label css-label">CSS</div>
+        <pre><span class="c-sel">.cuadricula</span> {
+  <span class="c-prop">display</span>: <span class="c-val">grid</span>;
+
+  <span class="c-cmt">/* 3 columnas iguales */</span>
+  <span class="c-prop">grid-template-columns</span>: <span class="c-unit">1fr</span> <span class="c-unit">1fr</span> <span class="c-unit">1fr</span>;
+
+  <span class="c-cmt">/* Columnas que se adaptan automáticamente */</span>
+  <span class="c-prop">grid-template-columns</span>: <span class="c-val">repeat</span>(<span class="c-val">auto-fit</span>, <span class="c-val">minmax</span>(<span class="c-unit">200px</span>, <span class="c-unit">1fr</span>));
+
+  <span class="c-cmt">/* Columna izquierda fija, derecha flexible */</span>
+  <span class="c-prop">grid-template-columns</span>: <span class="c-unit">250px</span> <span class="c-unit">1fr</span>;
+
+  <span class="c-prop">gap</span>: <span class="c-unit">20px</span>;               <span class="c-cmt">/* Espacio entre celdas */</span>
+}</pre>
+      </div>
+      <div class="caja info">💡 <code>1fr</code> significa "una fracción del espacio disponible". Si tienes <code>1fr 2fr</code>, el segundo elemento ocupa el doble que el primero.</div>
+    </div>
+  </div>
+
+  <div class="modulo" id="css-variables">
+    <div class="capitulo">
+      <h3>Variables CSS — tu paleta de diseño centralizada</h3>
+      <p>Las variables CSS permiten definir valores una sola vez y reutilizarlos en todo el documento. Si cambias el color principal, se actualiza en todos los sitios:</p>
+      <div class="code-block">
+        <div class="code-label css-label">CSS</div>
+        <pre><span class="c-cmt">/* Definir variables en :root (alcance global) */</span>
+<span class="c-sel">:root</span> {
+  <span class="c-prop">--color-principal</span>: <span class="c-val">#2563EB</span>;
+  <span class="c-prop">--color-fondo</span>: <span class="c-val">#F3F4F6</span>;
+  <span class="c-prop">--radio-borde</span>: <span class="c-unit">12px</span>;
+  <span class="c-prop">--sombra</span>: <span class="c-val">0 4px 12px rgba(0,0,0,0.1)</span>;
+}
+
+<span class="c-cmt">/* Usar las variables con var() */</span>
+<span class="c-sel">.boton</span> {
+  <span class="c-prop">background</span>: <span class="c-val">var</span>(<span class="c-prop">--color-principal</span>);
+  <span class="c-prop">border-radius</span>: <span class="c-val">var</span>(<span class="c-prop">--radio-borde</span>);
+  <span class="c-prop">box-shadow</span>: <span class="c-val">var</span>(<span class="c-prop">--sombra</span>);
+}</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="modulo" id="css-responsive">
+    <div class="capitulo">
+      <h3>Diseño responsive — adaptarse a móvil y escritorio</h3>
+      <p>Con <b>media queries</b> puedes aplicar estilos distintos según el tamaño de pantalla:</p>
+      <div class="code-block">
+        <div class="code-label css-label">CSS</div>
+        <pre><span class="c-cmt">/* Estilos base (para todos los tamaños) */</span>
+<span class="c-sel">.contenedor</span> {
+  <span class="c-prop">display</span>: <span class="c-val">grid</span>;
+  <span class="c-prop">grid-template-columns</span>: <span class="c-unit">1fr</span> <span class="c-unit">1fr</span> <span class="c-unit">1fr</span>;
+  <span class="c-prop">gap</span>: <span class="c-unit">20px</span>;
+}
+
+<span class="c-cmt">/* En pantallas pequeñas (menos de 600px): una columna */</span>
+<span class="c-sel">@media (max-width: 600px)</span> {
+  <span class="c-sel">.contenedor</span> {
+    <span class="c-prop">grid-template-columns</span>: <span class="c-unit">1fr</span>;
+  }
+}</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="modulo" id="css-ejercicio">
+    <div class="ejercicio">
+      <div class="ej-title">✏️ Ejercicio 2 — Dar estilo a tu página</div>
+      <p style="font-size:14px;color:#3B0764;margin-bottom:10px;">Sobre el ejercicio anterior, añade un bloque <code>&lt;style&gt;</code> y:</p>
+      <ol>
+        <li>Define variables CSS para color principal, color de fondo y radio de borde</li>
+        <li>Da al <code>body</code> un color de fondo gris claro</li>
+        <li>Centra el div <code>.contenido</code> con <code>max-width: 600px</code> y <code>margin: 0 auto</code></li>
+        <li>Dale a <code>.contenido</code> fondo blanco, padding y sombra</li>
+        <li>Estiliza el botón: color, padding, border-radius y efecto hover con transition</li>
+        <li>Haz que en móvil el padding sea menor</li>
+      </ol>
+    </div>
+  </div>
+
+  <hr class="sep">
+
+  <!-- ══════════════════════════════════════
+       MÓDULO 3 — JAVASCRIPT
+  ══════════════════════════════════════ -->
+  <div class="modulo" id="js-intro">
+    <div class="modulo-header">
+      <div class="modulo-num js">J</div>
+      <div><h2>Módulo 3 — JavaScript</h2><p>El único lenguaje de programación del navegador</p></div>
+    </div>
+    <div class="capitulo">
+      <h3>¿Qué es JavaScript?</h3>
+      <p>JavaScript (JS) es un lenguaje de programación que se ejecuta en el navegador. Permite que la página reaccione a las acciones del usuario: mostrar u ocultar elementos, calcular resultados, validar datos, animar cosas, etc.</p>
+      <div class="caja info">💡 Mientras HTML y CSS son <em>declarativos</em> (describes cómo debe verse), JavaScript es <em>imperativo</em>: le dices al navegador qué hacer, paso por paso.</div>
+    </div>
+  </div>
+
+  <div class="modulo" id="js-variables">
+    <div class="capitulo">
+      <h3>Variables y tipos de dato</h3>
+      <div class="code-block">
+        <div class="code-label js-label">JavaScript</div>
+        <pre><span class="c-cmt">// let: variable que puede cambiar de valor</span>
+<span class="c-kw">let</span> <span class="c-fn">puntuacion</span> = <span class="c-num">0</span>;
+<span class="c-kw">let</span> <span class="c-fn">nombre</span> = <span class="c-str">"Ana"</span>;
+<span class="c-kw">let</span> <span class="c-fn">activo</span> = <span class="c-kw">true</span>;
+
+<span class="c-cmt">// const: constante, no puede reasignarse</span>
+<span class="c-kw">const</span> <span class="c-fn">MAX_PUNTOS</span> = <span class="c-num">10</span>;
+<span class="c-kw">const</span> <span class="c-fn">TITULO</span> = <span class="c-str">"Mi App"</span>;
+
+<span class="c-cmt">// Los 5 tipos de dato básicos:</span>
+<span class="c-kw">let</span> a = <span class="c-num">42</span>;            <span class="c-cmt">// number (número entero)</span>
+<span class="c-kw">let</span> b = <span class="c-num">3.14</span>;          <span class="c-cmt">// number (decimal)</span>
+<span class="c-kw">let</span> c = <span class="c-str">"Hola"</span>;        <span class="c-cmt">// string (texto)</span>
+<span class="c-kw">let</span> d = <span class="c-kw">true</span>;          <span class="c-cmt">// boolean (verdadero/falso)</span>
+<span class="c-kw">let</span> e = <span class="c-kw">null</span>;          <span class="c-cmt">// null (vacío intencionado)</span>
+<span class="c-kw">let</span> f = <span class="c-kw">undefined</span>;    <span class="c-cmt">// undefined (no definido)</span>
+
+<span class="c-cmt">// Ver el valor en consola (abre DevTools con F12)</span>
+console.<span class="c-fn">log</span>(nombre);   <span class="c-cmt">// "Ana"</span>
+console.<span class="c-fn">log</span>(puntuacion + <span class="c-num">5</span>); <span class="c-cmt">// 5</span></pre>
+      </div>
+      <div class="caja warning">⚠️ <b>var vs let vs const:</b> Olvida <code>var</code>, está obsoleto. Usa siempre <code>const</code> por defecto, y <code>let</code> solo si el valor va a cambiar.</div>
+    </div>
+  </div>
+
+  <div class="modulo" id="js-operadores">
+    <div class="capitulo">
+      <h3>Operadores</h3>
+      <div class="code-block">
+        <div class="code-label js-label">JavaScript</div>
+        <pre><span class="c-cmt">// Aritméticos</span>
+<span class="c-num">5</span> + <span class="c-num">3</span>   <span class="c-cmt">// 8</span>
+<span class="c-num">10</span> - <span class="c-num">4</span>  <span class="c-cmt">// 6</span>
+<span class="c-num">3</span> * <span class="c-num">4</span>   <span class="c-cmt">// 12</span>
+<span class="c-num">10</span> / <span class="c-num">2</span>  <span class="c-cmt">// 5</span>
+<span class="c-num">10</span> % <span class="c-num">3</span>  <span class="c-cmt">// 1 (resto de la división)</span>
+
+<span class="c-cmt">// Comparación (siempre usa === no ==)</span>
+<span class="c-num">5</span> === <span class="c-num">5</span>  <span class="c-cmt">// true  (igual en valor Y tipo)</span>
+<span class="c-num">5</span> !== <span class="c-num">3</span>  <span class="c-cmt">// true  (distinto)</span>
+<span class="c-num">5</span> &gt; <span class="c-num">3</span>   <span class="c-cmt">// true</span>
+<span class="c-num">5</span> &lt;= <span class="c-num">5</span>  <span class="c-cmt">// true</span>
+
+<span class="c-cmt">// Lógicos</span>
+<span class="c-kw">true</span> && <span class="c-kw">true</span>   <span class="c-cmt">// true  (Y: ambos deben ser true)</span>
+<span class="c-kw">true</span> || <span class="c-kw">false</span>  <span class="c-cmt">// true  (O: basta con uno true)</span>
+!<span class="c-kw">true</span>          <span class="c-cmt">// false (NOT: invierte)</span>
+
+<span class="c-cmt">// Concatenar texto</span>
+<span class="c-str">"Hola, "</span> + nombre + <span class="c-str">"!"</span>   <span class="c-cmt">// "Hola, Ana!"</span>
+<span class="c-str">`Hola, <span class="c-fn">${nombre}</span>!`</span>         <span class="c-cmt">// Igual, con template literal (más cómodo)</span>
+
+<span class="c-cmt">// Incremento / decremento</span>
+puntuacion++;  <span class="c-cmt">// puntuacion = puntuacion + 1</span>
+puntuacion--;  <span class="c-cmt">// puntuacion = puntuacion - 1</span>
+puntuacion += <span class="c-num">5</span>;  <span class="c-cmt">// puntuacion = puntuacion + 5</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="modulo" id="js-condicionales">
+    <div class="capitulo">
+      <h3>Condicionales — tomar decisiones</h3>
+      <div class="code-block">
+        <div class="code-label js-label">JavaScript</div>
+        <pre><span class="c-kw">let</span> puntos = <span class="c-num">7</span>;
+
+<span class="c-cmt">// if / else if / else</span>
+<span class="c-kw">if</span> (puntos >= <span class="c-num">9</span>) {
+  console.<span class="c-fn">log</span>(<span class="c-str">"Sobresaliente"</span>);
+} <span class="c-kw">else if</span> (puntos >= <span class="c-num">7</span>) {
+  console.<span class="c-fn">log</span>(<span class="c-str">"Notable"</span>);
+} <span class="c-kw">else if</span> (puntos >= <span class="c-num">5</span>) {
+  console.<span class="c-fn">log</span>(<span class="c-str">"Aprobado"</span>);
+} <span class="c-kw">else</span> {
+  console.<span class="c-fn">log</span>(<span class="c-str">"Suspenso"</span>);
+}
+
+<span class="c-cmt">// Operador ternario (if/else en una línea)</span>
+<span class="c-kw">let</span> resultado = puntos >= <span class="c-num">5</span> ? <span class="c-str">"Aprobado"</span> : <span class="c-str">"Suspenso"</span>;</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="modulo" id="js-bucles">
+    <div class="capitulo">
+      <h3>Bucles — repetir acciones</h3>
+      <div class="code-block">
+        <div class="code-label js-label">JavaScript</div>
+        <pre><span class="c-cmt">// for clásico: contador del 0 al 4</span>
+<span class="c-kw">for</span> (<span class="c-kw">let</span> i = <span class="c-num">0</span>; i &lt; <span class="c-num">5</span>; i++) {
+  console.<span class="c-fn">log</span>(i);  <span class="c-cmt">// 0, 1, 2, 3, 4</span>
+}
+
+<span class="c-cmt">// while: mientras la condición sea verdadera</span>
+<span class="c-kw">let</span> contador = <span class="c-num">0</span>;
+<span class="c-kw">while</span> (contador &lt; <span class="c-num">3</span>) {
+  console.<span class="c-fn">log</span>(contador);
+  contador++;
+}
+
+<span class="c-cmt">// forEach: recorrer un array (lo veremos más adelante)</span>
+[<span class="c-str">"Tenerife"</span>, <span class="c-str">"Gran Canaria"</span>, <span class="c-str">"La Palma"</span>].<span class="c-fn">forEach</span>(isla => {
+  console.<span class="c-fn">log</span>(isla);
+});</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="modulo" id="js-funciones">
+    <div class="capitulo">
+      <h3>Funciones — bloques de código reutilizables</h3>
+      <div class="code-block">
+        <div class="code-label js-label">JavaScript</div>
+        <pre><span class="c-cmt">// Declaración de función</span>
+<span class="c-kw">function</span> <span class="c-fn">saludar</span>(nombre) {
+  <span class="c-kw">return</span> <span class="c-str">`Hola, <span class="c-fn">${nombre}</span>!`</span>;
+}
+console.<span class="c-fn">log</span>(<span class="c-fn">saludar</span>(<span class="c-str">"Ana"</span>));  <span class="c-cmt">// "Hola, Ana!"</span>
+
+<span class="c-cmt">// Función flecha (arrow function) — más corta</span>
+<span class="c-kw">const</span> <span class="c-fn">sumar</span> = (a, b) => a + b;
+console.<span class="c-fn">log</span>(<span class="c-fn">sumar</span>(<span class="c-num">3</span>, <span class="c-num">4</span>));   <span class="c-cmt">// 7</span>
+
+<span class="c-cmt">// Función sin parámetros ni retorno</span>
+<span class="c-kw">function</span> <span class="c-fn">mostrarAlerta</span>() {
+  <span class="c-fn">alert</span>(<span class="c-str">"¡Atención!"</span>);
+}
+
+<span class="c-cmt">// Llamar a la función</span>
+<span class="c-fn">mostrarAlerta</span>();
+
+<span class="c-cmt">// Función con valor por defecto</span>
+<span class="c-kw">function</span> <span class="c-fn">bienvenida</span>(nombre = <span class="c-str">"visitante"</span>) {
+  <span class="c-kw">return</span> <span class="c-str">`Bienvenido, <span class="c-fn">${nombre}</span>`</span>;
+}
+<span class="c-fn">bienvenida</span>();         <span class="c-cmt">// "Bienvenido, visitante"</span>
+<span class="c-fn">bienvenida</span>(<span class="c-str">"Lucía"</span>); <span class="c-cmt">// "Bienvenido, Lucía"</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="modulo" id="js-arrays">
+    <div class="capitulo">
+      <h3>Arrays — listas de datos</h3>
+      <p>Un array es una lista ordenada de elementos. Es la estructura más usada en JavaScript para manejar colecciones de datos.</p>
+      <div class="code-block">
+        <div class="code-label js-label">JavaScript</div>
+        <pre><span class="c-kw">const</span> islas = [<span class="c-str">"Tenerife"</span>, <span class="c-str">"Gran Canaria"</span>, <span class="c-str">"La Palma"</span>];
+
+<span class="c-cmt">// Acceder por índice (empieza en 0)</span>
+islas[<span class="c-num">0</span>];   <span class="c-cmt">// "Tenerife"</span>
+islas[<span class="c-num">2</span>];   <span class="c-cmt">// "La Palma"</span>
+
+<span class="c-cmt">// Longitud</span>
+islas.length;  <span class="c-cmt">// 3</span>
+
+<span class="c-cmt">// Añadir al final</span>
+islas.<span class="c-fn">push</span>(<span class="c-str">"Lanzarote"</span>);
+
+<span class="c-cmt">// Recorrer con forEach</span>
+islas.<span class="c-fn">forEach</span>(isla => {
+  console.<span class="c-fn">log</span>(isla);
+});
+
+<span class="c-cmt">// map: transformar cada elemento y devolver nuevo array</span>
+<span class="c-kw">const</span> mayusculas = islas.<span class="c-fn">map</span>(isla => isla.<span class="c-fn">toUpperCase</span>());
+<span class="c-cmt">// ["TENERIFE", "GRAN CANARIA", "LA PALMA", "LANZAROTE"]</span>
+
+<span class="c-cmt">// filter: filtrar elementos que cumplan una condición</span>
+<span class="c-kw">const</span> numeros = [<span class="c-num">1</span>, <span class="c-num">2</span>, <span class="c-num">3</span>, <span class="c-num">4</span>, <span class="c-num">5</span>, <span class="c-num">6</span>];
+<span class="c-kw">const</span> pares = numeros.<span class="c-fn">filter</span>(n => n % <span class="c-num">2</span> === <span class="c-num">0</span>);  <span class="c-cmt">// [2, 4, 6]</span>
+
+<span class="c-cmt">// join: convertir array en string</span>
+islas.<span class="c-fn">join</span>(<span class="c-str">" | "</span>);  <span class="c-cmt">// "Tenerife | Gran Canaria | La Palma"</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="modulo" id="js-objetos">
+    <div class="capitulo">
+      <h3>Objetos — agrupar datos relacionados</h3>
+      <p>Un objeto agrupa propiedades relacionadas bajo un mismo nombre. Es perfecto para representar entidades del mundo real.</p>
+      <div class="code-block">
+        <div class="code-label js-label">JavaScript</div>
+        <pre><span class="c-cmt">// Crear un objeto</span>
+<span class="c-kw">const</span> isla = {
+  nombre: <span class="c-str">"Tenerife"</span>,
+  poblacion: <span class="c-num">920000</span>,
+  altitud: <span class="c-num">3718</span>,
+  esIsla: <span class="c-kw">true</span>
+};
+
+<span class="c-cmt">// Acceder a propiedades</span>
+isla.nombre;        <span class="c-cmt">// "Tenerife"</span>
+isla[<span class="c-str">"altitud"</span>];   <span class="c-cmt">// 3718</span>
+
+<span class="c-cmt">// Modificar</span>
+isla.poblacion = <span class="c-num">930000</span>;
+
+<span class="c-cmt">// Array de objetos (muy común)</span>
+<span class="c-kw">const</span> preguntas = [
+  { texto: <span class="c-str">"¿Capital de Canarias?"</span>, respuesta: <span class="c-str">"Las Palmas / Santa Cruz"</span>, ok: <span class="c-num">0</span> },
+  { texto: <span class="c-str">"¿Isla más alta?"</span>,        respuesta: <span class="c-str">"Tenerife"</span>,              ok: <span class="c-num">1</span> }
+];
+
+<span class="c-cmt">// Acceder a propiedades de un objeto dentro de un array</span>
+preguntas[<span class="c-num">0</span>].texto;      <span class="c-cmt">// "¿Capital de Canarias?"</span>
+preguntas[<span class="c-num">1</span>].respuesta;  <span class="c-cmt">// "Tenerife"</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="modulo" id="js-dom">
+    <div class="capitulo">
+      <h3 class="verde">Manipular el DOM — cambiar la página con JS</h3>
+      <p>El DOM (Document Object Model) es la representación en JavaScript del HTML de la página. Con él puedes leer y modificar cualquier elemento en tiempo real.</p>
+      <div class="code-block">
+        <div class="code-label js-label">JavaScript — Seleccionar elementos</div>
+        <pre><span class="c-cmt">// Por id (devuelve UN elemento)</span>
+<span class="c-kw">const</span> caja = document.<span class="c-fn">getElementById</span>(<span class="c-str">"mi-caja"</span>);
+
+<span class="c-cmt">// Por clase (devuelve una lista)</span>
+<span class="c-kw">const</span> tarjetas = document.<span class="c-fn">querySelectorAll</span>(<span class="c-str">".tarjeta"</span>);
+
+<span class="c-cmt">// Selector CSS (el más flexible)</span>
+<span class="c-kw">const</span> boton = document.<span class="c-fn">querySelector</span>(<span class="c-str">"#formulario button"</span>);</pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label js-label">JavaScript — Modificar elementos</div>
+        <pre><span class="c-kw">const</span> el = document.<span class="c-fn">getElementById</span>(<span class="c-str">"resultado"</span>);
+
+<span class="c-cmt">// Cambiar el contenido HTML</span>
+el.innerHTML = <span class="c-str">"&lt;b&gt;¡Correcto!&lt;/b&gt;"</span>;
+
+<span class="c-cmt">// Cambiar solo el texto (más seguro)</span>
+el.textContent = <span class="c-str">"Texto simple"</span>;
+
+<span class="c-cmt">// Cambiar estilos</span>
+el.style.color = <span class="c-str">"green"</span>;
+el.style.display = <span class="c-str">"none"</span>;    <span class="c-cmt">// ocultar</span>
+el.style.display = <span class="c-str">"block"</span>;   <span class="c-cmt">// mostrar</span>
+
+<span class="c-cmt">// Añadir / quitar / comprobar clases</span>
+el.classList.<span class="c-fn">add</span>(<span class="c-str">"activo"</span>);
+el.classList.<span class="c-fn">remove</span>(<span class="c-str">"activo"</span>);
+el.classList.<span class="c-fn">toggle</span>(<span class="c-str">"activo"</span>);   <span class="c-cmt">// añade si no está, quita si está</span>
+el.classList.<span class="c-fn">contains</span>(<span class="c-str">"activo"</span>); <span class="c-cmt">// true / false</span>
+
+<span class="c-cmt">// Leer el valor de un input</span>
+<span class="c-kw">const</span> input = document.<span class="c-fn">getElementById</span>(<span class="c-str">"mi-input"</span>);
+<span class="c-kw">const</span> valor = input.value;</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="modulo" id="js-eventos">
+    <div class="capitulo">
+      <h3 class="verde">Eventos — reaccionar a las acciones del usuario</h3>
+      <div class="code-block">
+        <div class="code-label js-label">JavaScript</div>
+        <pre><span class="c-kw">const</span> boton = document.<span class="c-fn">getElementById</span>(<span class="c-str">"mi-boton"</span>);
+
+<span class="c-cmt">// Forma 1: addEventListener (recomendada)</span>
+boton.<span class="c-fn">addEventListener</span>(<span class="c-str">"click"</span>, () => {
+  console.<span class="c-fn">log</span>(<span class="c-str">"¡Botón pulsado!"</span>);
+});
+
+<span class="c-cmt">// Forma 2: onclick directo</span>
+boton.onclick = () => { console.<span class="c-fn">log</span>(<span class="c-str">"Clic"</span>); };
+
+<span class="c-cmt">// Otros eventos útiles:</span>
+<span class="c-cmt">// "mouseover"  → ratón encima</span>
+<span class="c-cmt">// "mouseout"   → ratón sale</span>
+<span class="c-cmt">// "keydown"    → tecla presionada</span>
+<span class="c-cmt">// "input"      → el usuario escribe en un input</span>
+<span class="c-cmt">// "change"     → valor de select cambia</span>
+
+<span class="c-cmt">// Ejemplo: mostrar lo que se escribe en tiempo real</span>
+<span class="c-kw">const</span> campo = document.<span class="c-fn">getElementById</span>(<span class="c-str">"nombre"</span>);
+<span class="c-kw">const</span> salida = document.<span class="c-fn">getElementById</span>(<span class="c-str">"salida"</span>);
+
+campo.<span class="c-fn">addEventListener</span>(<span class="c-str">"input"</span>, () => {
+  salida.textContent = <span class="c-str">`Hola, <span class="c-fn">${campo.value}</span>!`</span>;
+});</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="modulo" id="js-ejercicio">
+    <div class="ejercicio">
+      <div class="ej-title">✏️ Ejercicio 3 — Contador interactivo</div>
+      <p style="font-size:14px;color:#3B0764;margin-bottom:10px;">Crea una página con:</p>
+      <ol>
+        <li>Un <code>&lt;p id="numero"&gt;0&lt;/p&gt;</code> que muestre el contador</li>
+        <li>Un botón "➕ Sumar" que incremente el número</li>
+        <li>Un botón "➖ Restar" que lo decremente (sin pasar de 0)</li>
+        <li>Un botón "🔄 Reiniciar" que lo ponga a 0</li>
+        <li>Que el número se ponga en verde si es positivo y en rojo si es 0</li>
+      </ol>
+    </div>
+  </div>
+
+  <hr class="sep">
+
+  <!-- ══════════════════════════════════════
+       MÓDULO 4 — PROYECTO
+  ══════════════════════════════════════ -->
+  <div class="modulo" id="proyecto-quiz">
+    <div class="modulo-header">
+      <div class="modulo-num proj">P</div>
+      <div><h2>Módulo 4 — Proyecto: construye lo que ya conoces</h2><p>Aplica todo lo aprendido en componentes reales</p></div>
+    </div>
+    <div class="capitulo">
+      <h3 class="morado">4.1 — Cómo funciona un quiz</h3>
+      <p>El quiz de las clases de Canarias funciona con este patrón: un array de objetos con las preguntas, una función que genera el HTML, y otra que evalúa la respuesta.</p>
+      <div class="code-block">
+        <div class="code-label js-label">JavaScript — Datos del quiz</div>
+        <pre><span class="c-cmt">// 1. Los datos: array de objetos</span>
+<span class="c-kw">const</span> preguntas = [
+  {
+    p: <span class="c-str">"¿Cuántas islas tiene Canarias?"</span>,
+    ops: [<span class="c-str">"5"</span>, <span class="c-str">"6"</span>, <span class="c-str">"7"</span>, <span class="c-str">"8"</span>],
+    ok: <span class="c-num">2</span>,   <span class="c-cmt">// índice de la opción correcta</span>
+    exp: <span class="c-str">"Canarias tiene 7 islas principales."</span>
+  },
+  {
+    p: <span class="c-str">"¿Cuál es la isla más alta?"</span>,
+    ops: [<span class="c-str">"Lanzarote"</span>, <span class="c-str">"Gran Canaria"</span>, <span class="c-str">"Tenerife"</span>, <span class="c-str">"La Palma"</span>],
+    ok: <span class="c-num">2</span>,
+    exp: <span class="c-str">"Tenerife, con el Teide (3.718 m)."</span>
+  }
+];</pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label js-label">JavaScript — Renderizar las preguntas</div>
+        <pre><span class="c-kw">let</span> puntos = <span class="c-num">0</span>;
+
+<span class="c-kw">function</span> <span class="c-fn">renderQuiz</span>() {
+  <span class="c-kw">const</span> contenedor = document.<span class="c-fn">getElementById</span>(<span class="c-str">"quiz"</span>);
+
+  <span class="c-cmt">// map: por cada pregunta, genera un bloque de HTML</span>
+  contenedor.innerHTML = preguntas.<span class="c-fn">map</span>((pregunta, indice) => `
+    &lt;div class="pregunta"&gt;
+      &lt;p&gt;${pregunta.p}&lt;/p&gt;
+      ${pregunta.ops.<span class="c-fn">map</span>((opcion, i) => `
+        &lt;button onclick="<span class="c-fn">responder</span>(${indice}, ${i})" id="op-${indice}-${i}"&gt;
+          ${opcion}
+        &lt;/button&gt;
+      `).<span class="c-fn">join</span>(<span class="c-str">""</span>)}
+      &lt;p id="fb-${indice}" class="feedback"&gt;&lt;/p&gt;
+    &lt;/div&gt;
+  `).<span class="c-fn">join</span>(<span class="c-str">""</span>);
+}</pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label js-label">JavaScript — Evaluar la respuesta</div>
+        <pre><span class="c-kw">const</span> respondidas = {};  <span class="c-cmt">// evitar responder dos veces</span>
+
+<span class="c-kw">function</span> <span class="c-fn">responder</span>(indice, opcionElegida) {
+  <span class="c-kw">if</span> (respondidas[indice]) <span class="c-kw">return</span>;  <span class="c-cmt">// ya respondida</span>
+  respondidas[indice] = <span class="c-kw">true</span>;
+
+  <span class="c-kw">const</span> pregunta = preguntas[indice];
+  <span class="c-kw">const</span> feedback = document.<span class="c-fn">getElementById</span>(<span class="c-str">`fb-${indice}`</span>);
+
+  <span class="c-cmt">// Marcar botones correcto / incorrecto</span>
+  pregunta.ops.<span class="c-fn">forEach</span>((_, i) => {
+    <span class="c-kw">const</span> btn = document.<span class="c-fn">getElementById</span>(<span class="c-str">`op-${indice}-${i}`</span>);
+    btn.disabled = <span class="c-kw">true</span>;
+    <span class="c-kw">if</span> (i === pregunta.ok) btn.classList.<span class="c-fn">add</span>(<span class="c-str">"correcta"</span>);
+    <span class="c-kw">if</span> (i === opcionElegida && i !== pregunta.ok) btn.classList.<span class="c-fn">add</span>(<span class="c-str">"incorrecta"</span>);
+  });
+
+  <span class="c-cmt">// Mostrar explicación</span>
+  <span class="c-kw">if</span> (opcionElegida === pregunta.ok) {
+    puntos++;
+    feedback.textContent = <span class="c-str">"✅ "</span> + pregunta.exp;
+    feedback.className = <span class="c-str">"feedback ok"</span>;
+  } <span class="c-kw">else</span> {
+    feedback.textContent = <span class="c-str">"❌ "</span> + pregunta.exp;
+    feedback.className = <span class="c-str">"feedback mal"</span>;
+  }
+
+  document.<span class="c-fn">getElementById</span>(<span class="c-str">"puntuacion"</span>).textContent = puntos;
+}
+
+<span class="c-fn">renderQuiz</span>();  <span class="c-cmt">// ejecutar al cargar</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="modulo" id="proyecto-tarjetas">
+    <div class="capitulo">
+      <h3 class="morado">4.2 — Tarjetas interactivas (acordeón)</h3>
+      <p>El patrón acordeón muestra u oculta contenido al pulsar. Es uno de los más usados en interfaces web:</p>
+      <div class="code-block">
+        <div class="code-label html-label">HTML</div>
+        <pre><span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"acordeon"</span> <span class="c-attr">id</span>=<span class="c-val">"item-0"</span><span class="c-tag">&gt;</span>
+  <span class="c-tag">&lt;button</span> <span class="c-attr">onclick</span>=<span class="c-val">"toggleAcordeon(0)"</span><span class="c-tag">&gt;</span>
+    Pino canario ▼
+  <span class="c-tag">&lt;/button&gt;</span>
+  <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"contenido"</span> <span class="c-attr">id</span>=<span class="c-val">"ac-0"</span><span class="c-tag">&gt;</span>
+    <span class="c-tag">&lt;p&gt;</span>El único pino del mundo que rebrota tras un incendio.<span class="c-tag">&lt;/p&gt;</span>
+  <span class="c-tag">&lt;/div&gt;</span>
+<span class="c-tag">&lt;/div&gt;</span></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label js-label">JavaScript</div>
+        <pre><span class="c-kw">function</span> <span class="c-fn">toggleAcordeon</span>(i) {
+  <span class="c-kw">const</span> contenido = document.<span class="c-fn">getElementById</span>(<span class="c-str">`ac-${i}`</span>);
+  <span class="c-cmt">// toggle: si tiene la clase "visible" la quita, si no la tiene la añade</span>
+  contenido.classList.<span class="c-fn">toggle</span>(<span class="c-str">"visible"</span>);
+}</pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label css-label">CSS</div>
+        <pre><span class="c-sel">.contenido</span> {
+  <span class="c-prop">display</span>: <span class="c-val">none</span>;  <span class="c-cmt">/* oculto por defecto */</span>
+}
+<span class="c-sel">.contenido.visible</span> {
+  <span class="c-prop">display</span>: <span class="c-val">block</span>;  <span class="c-cmt">/* se muestra cuando tiene la clase "visible" */</span>
+}</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="modulo" id="proyecto-drag">
+    <div class="capitulo">
+      <h3 class="morado">4.3 — Drag & Drop básico</h3>
+      <p>El drag & drop nativo del navegador requiere tres pasos: marcar qué es arrastrable, escuchar el arrastre, y manejar la suelta.</p>
+      <div class="code-block">
+        <div class="code-label html-label">HTML</div>
+        <pre><span class="c-cmt">&lt;!-- Elemento arrastrable --&gt;</span>
+<span class="c-tag">&lt;div</span> <span class="c-attr">draggable</span>=<span class="c-val">"true"</span> <span class="c-attr">id</span>=<span class="c-val">"chip-1"</span>
+     <span class="c-attr">ondragstart</span>=<span class="c-val">"arrastrar(event)"</span><span class="c-tag">&gt;</span>
+  Drago
+<span class="c-tag">&lt;/div&gt;</span>
+
+<span class="c-cmt">&lt;!-- Zona de destino --&gt;</span>
+<span class="c-tag">&lt;div</span> <span class="c-attr">id</span>=<span class="c-val">"zona"</span>
+     <span class="c-attr">ondragover</span>=<span class="c-val">"event.preventDefault()"</span>
+     <span class="c-attr">ondrop</span>=<span class="c-val">"soltar(event)"</span><span class="c-tag">&gt;</span>
+  Suéltalo aquí
+<span class="c-tag">&lt;/div&gt;</span></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label js-label">JavaScript</div>
+        <pre><span class="c-kw">let</span> elementoArrastrado = <span class="c-kw">null</span>;
+
+<span class="c-kw">function</span> <span class="c-fn">arrastrar</span>(event) {
+  <span class="c-cmt">// Guardar referencia al elemento que se arrastra</span>
+  elementoArrastrado = event.target;
+}
+
+<span class="c-kw">function</span> <span class="c-fn">soltar</span>(event) {
+  event.<span class="c-fn">preventDefault</span>();
+  <span class="c-kw">if</span> (!elementoArrastrado) <span class="c-kw">return</span>;
+  <span class="c-cmt">// Mover el elemento a la zona de destino</span>
+  event.target.<span class="c-fn">appendChild</span>(elementoArrastrado);
+  elementoArrastrado = <span class="c-kw">null</span>;
+}
+
+<span class="c-cmt">// IMPORTANTE: ondragover necesita preventDefault()
+// para que el navegador permita soltar elementos.</span></pre>
+      </div>
+    </div>
+
+    <div class="ejercicio">
+      <div class="ej-title">✏️ Ejercicio final — Mini quiz completo</div>
+      <p style="font-size:14px;color:#3B0764;margin-bottom:10px;">Construye desde cero un quiz de 3 preguntas sobre el tema que quieras:</p>
+      <ol>
+        <li>Define el array de preguntas con sus opciones, respuesta correcta y explicación</li>
+        <li>Crea una función <code>renderQuiz()</code> que genere el HTML</li>
+        <li>Crea una función <code>responder()</code> que marque correcta/incorrecta y muestre la explicación</li>
+        <li>Muestra la puntuación en tiempo real</li>
+        <li>Añade un botón "Reiniciar" que limpie todo y vuelva a renderizar</li>
+        <li>Estílalo con CSS para que se vea limpio y claro</li>
+      </ol>
+    </div>
+  </div>
+
+  <hr class="sep">
+
+  <!-- GLOSARIO -->
+  <div class="modulo" id="glosario">
+    <div class="modulo-header">
+      <div class="modulo-num tips">📚</div>
+      <div><h2>Glosario</h2><p>Términos esenciales que aparecerán constantemente</p></div>
+    </div>
+    <dl>
+      <div class="glosario-item"><dt>DOM</dt><dd>Document Object Model. La representación en JavaScript de todos los elementos HTML de la página. Lo que manipulas con <code>document.getElementById</code>.</dd></div>
+      <div class="glosario-item"><dt>Etiqueta / Tag</dt><dd>Cada elemento HTML delimitado por <code>&lt;&gt;</code>. Ejemplo: <code>&lt;div&gt;</code>, <code>&lt;p&gt;</code>, <code>&lt;button&gt;</code>.</dd></div>
+      <div class="glosario-item"><dt>Atributo</dt><dd>Información adicional dentro de una etiqueta. Ejemplo: <code>id="caja"</code>, <code>class="tarjeta"</code>, <code>onclick="hacer()"</code>.</dd></div>
+      <div class="glosario-item"><dt>Selector CSS</dt><dd>La parte de una regla CSS que indica a qué elementos afecta. Puede ser por etiqueta (<code>p</code>), clase (<code>.tarjeta</code>) o id (<code>#caja</code>).</dd></div>
+      <div class="glosario-item"><dt>Propiedad CSS</dt><dd>Lo que se quiere cambiar: <code>color</code>, <code>font-size</code>, <code>padding</code>, etc.</dd></div>
+      <div class="glosario-item"><dt>Variable (JS)</dt><dd>Un nombre que almacena un valor. Se declara con <code>let</code> (cambia) o <code>const</code> (no cambia).</dd></div>
+      <div class="glosario-item"><dt>Función</dt><dd>Un bloque de código con nombre que se puede llamar cuantas veces se quiera. Se declara con <code>function nombre() {}</code>.</dd></div>
+      <div class="glosario-item"><dt>Array</dt><dd>Lista ordenada de valores: <code>["uno", "dos", "tres"]</code>. El primer elemento tiene índice 0.</dd></div>
+      <div class="glosario-item"><dt>Objeto</dt><dd>Colección de pares clave-valor: <code>{ nombre: "Tenerife", altitud: 3718 }</code>.</dd></div>
+      <div class="glosario-item"><dt>Evento</dt><dd>Acción del usuario (clic, teclado, ratón) a la que JavaScript puede reaccionar con <code>addEventListener</code>.</dd></div>
+      <div class="glosario-item"><dt>innerHTML</dt><dd>Propiedad de un elemento del DOM que contiene (y permite modificar) su HTML interno.</dd></div>
+      <div class="glosario-item"><dt>classList</dt><dd>Lista de clases CSS de un elemento. Permite añadir, quitar y alternar clases con <code>.add()</code>, <code>.remove()</code>, <code>.toggle()</code>.</dd></div>
+      <div class="glosario-item"><dt>Flexbox</dt><dd>Sistema CSS para distribuir elementos en una fila o columna. Se activa con <code>display: flex</code>.</dd></div>
+      <div class="glosario-item"><dt>Grid</dt><dd>Sistema CSS para crear cuadrículas de filas y columnas. Se activa con <code>display: grid</code>.</dd></div>
+      <div class="glosario-item"><dt>Media query</dt><dd>Regla CSS que aplica estilos solo cuando se cumple una condición de pantalla. Ej: <code>@media (max-width: 600px) {}</code>.</dd></div>
+      <div class="glosario-item"><dt>Template literal</dt><dd>Forma de escribir strings en JS con comillas invertidas que permite incrustar variables: <code>`Hola, ${nombre}!`</code>.</dd></div>
+      <div class="glosario-item"><dt>DevTools</dt><dd>Herramientas de desarrollador del navegador. Se abren con F12. Permiten inspeccionar el HTML, depurar JS y ver errores.</dd></div>
+    </dl>
+  </div>
+
+  <!-- RECURSOS -->
+  <div class="modulo" id="recursos">
+    <div class="modulo-header">
+      <div class="modulo-num tips">🔗</div>
+      <div><h2>Recursos recomendados</h2><p>Todo gratuito, todo en español o con traducción</p></div>
+    </div>
+    <div class="capitulo">
+      <h3>Para aprender y consultar</h3>
+      <table>
+        <tr><th>Recurso</th><th>Qué encontrarás</th><th>Nivel</th></tr>
+        <tr><td><b>MDN Web Docs</b><br><code>developer.mozilla.org/es</code></td><td>La referencia definitiva de HTML, CSS y JS. Siempre actualizada.</td><td>Todos</td></tr>
+        <tr><td><b>The Odin Project</b><br><code>theodinproject.com</code></td><td>Curso completo gratuito con proyectos reales. Muy estructurado.</td><td>Principiante</td></tr>
+        <tr><td><b>CSS Tricks</b><br><code>css-tricks.com</code></td><td>Guías visuales de Flexbox y Grid. Las mejores que existen.</td><td>Principiante / Medio</td></tr>
+        <tr><td><b>JavaScript.info</b><br><code>javascript.info/es</code></td><td>El mejor recurso para aprender JS en profundidad. Hay versión en español.</td><td>Principiante / Medio</td></tr>
+        <tr><td><b>Flexbox Froggy</b><br><code>flexboxfroggy.com</code></td><td>Juego para aprender Flexbox. 24 niveles.</td><td>Principiante</td></tr>
+        <tr><td><b>Grid Garden</b><br><code>cssgridgarden.com</code></td><td>Juego para aprender Grid CSS. 28 niveles.</td><td>Principiante</td></tr>
+      </table>
+    </div>
+    <div class="capitulo">
+      <h3>Para practicar en el navegador sin instalar nada</h3>
+      <table>
+        <tr><th>Herramienta</th><th>Para qué</th></tr>
+        <tr><td><b>CodePen</b> — <code>codepen.io</code></td><td>Editor online con HTML, CSS y JS. Ideal para probar ideas rápidas y ver el resultado al instante.</td></tr>
+        <tr><td><b>JSFiddle</b> — <code>jsfiddle.net</code></td><td>Similar a CodePen. Permite compartir código fácilmente.</td></tr>
+      </table>
+    </div>
+    <div class="caja ok" style="margin-top:24px;">
+      ✅ <b>Consejo final:</b> La clave para aprender a programar es <b>construir cosas</b>. Cada vez que leas algo nuevo, intenta aplicarlo en un proyecto pequeño. No hay mejor profesor que el error que te da el navegador y que tienes que resolver.
+    </div>
+  </div>
+
+</main>
+
+<script>
+// ── BARRA DE PROGRESO DE LECTURA ──
+const barraProgreso = document.getElementById('barra-progreso');
+function actualizarProgreso() {
+  const total = document.documentElement.scrollHeight - window.innerHeight;
+  const progreso = total > 0 ? (window.scrollY / total) * 100 : 0;
+  barraProgreso.style.width = progreso + '%';
+}
+
+// ── BOTÓN VOLVER ARRIBA ──
+const btnTop = document.getElementById('btn-top');
+function toggleBtnTop() {
+  btnTop.classList.toggle('visible', window.scrollY > 400);
+}
+
+// ── MARCAR ENLACE ACTIVO EN SIDEBAR AL HACER SCROLL ──
+const enlaces = document.querySelectorAll('.sidebar a');
+const secciones = document.querySelectorAll('.modulo, .portada, #ruta, #herramientas');
+
+function marcarActivo() {
+  let actual = '';
+  secciones.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 80) actual = s.id;
+  });
+  enlaces.forEach(a => {
+    const estaActivo = a.getAttribute('href') === '#' + actual;
+    if (estaActivo && !a.classList.contains('activo')) {
+      a.classList.add('activo');
+      // Auto-scroll del sidebar para que el enlace activo sea visible
+      a.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      // Abrir automáticamente el grupo que contiene el enlace activo
+      const grupo = a.closest('.nav-grupo');
+      if (grupo && !grupo.classList.contains('abierto')) {
+        grupo.classList.add('abierto');
+      }
+    } else if (!estaActivo) {
+      a.classList.remove('activo');
+    }
+  });
+}
+
+window.addEventListener('scroll', () => {
+  actualizarProgreso();
+  toggleBtnTop();
+  marcarActivo();
+}, { passive: true });
+
+// ── MODO OSCURO ──
+function toggleDark() {
+  const isDark = document.body.classList.toggle('dark-mode');
+  document.getElementById('btn-dark').textContent = isDark ? '☀️' : '🌙';
+  localStorage.setItem('dark', isDark ? '1' : '0');
+}
+// Recordar preferencia
+if (localStorage.getItem('dark') === '1') {
+  document.body.classList.add('dark-mode');
+  document.getElementById('btn-dark').textContent = '☀️';
+}
+
+// ── SIDEBAR MÓVIL ──
+function toggleSidebar() {
+  const sidebar = document.querySelector('.sidebar');
+  const overlay = document.getElementById('sidebar-overlay');
+  const btn = document.getElementById('btn-menu');
+  const abierto = sidebar.classList.toggle('abierto');
+  overlay.classList.toggle('visible', abierto);
+  btn.textContent = abierto ? '✕' : '☰';
+  btn.setAttribute('aria-expanded', abierto);
+}
+// Cerrar sidebar al hacer clic en un enlace (móvil/tablet)
+document.querySelectorAll('.sidebar a').forEach(a => {
+  a.addEventListener('click', () => {
+    if (window.innerWidth <= 1024) {
+      // Pequeño delay para que el scroll funcione antes de cerrar
+      setTimeout(() => {
+        const sidebar = document.querySelector('.sidebar');
+        if (sidebar.classList.contains('abierto')) toggleSidebar();
+      }, 120);
+    }
+  });
+});
+
+// ── GRUPOS PLEGABLES DEL SIDEBAR ──
+function toggleGrupo(id) {
+  const grupo = document.querySelector(`.nav-grupo[data-grupo="${id}"]`);
+  if (!grupo) return;
+  grupo.classList.toggle('abierto');
+  // Guardar estado en sessionStorage
+  const estados = JSON.parse(sessionStorage.getItem('navGrupos') || '{}');
+  estados[id] = grupo.classList.contains('abierto');
+  sessionStorage.setItem('navGrupos', JSON.stringify(estados));
+}
+// Restaurar estado de grupos al cargar
+(function restaurarGrupos() {
+  const estados = JSON.parse(sessionStorage.getItem('navGrupos') || '{}');
+  Object.entries(estados).forEach(([id, abierto]) => {
+    const grupo = document.querySelector(`.nav-grupo[data-grupo="${id}"]`);
+    if (grupo) grupo.classList.toggle('abierto', abierto);
+  });
+})();
+
+// ── BOTONES COPIAR CÓDIGO ──
+document.querySelectorAll('.code-block').forEach(bloque => {
+  const btn = document.createElement('button');
+  btn.className = 'btn-copiar';
+  btn.textContent = 'COPIAR';
+  bloque.appendChild(btn);
+  btn.addEventListener('click', () => {
+    const pre = bloque.querySelector('pre');
+    const texto = pre ? pre.innerText : '';
+    navigator.clipboard.writeText(texto).then(() => {
+      btn.textContent = '✓ COPIADO';
+      btn.classList.add('copiado');
+      setTimeout(() => {
+        btn.textContent = 'COPIAR';
+        btn.classList.remove('copiado');
+      }, 2000);
+    }).catch(() => {
+      const sel = window.getSelection();
+      const range = document.createRange();
+      range.selectNodeContents(pre);
+      sel.removeAllRanges();
+      sel.addRange(range);
+      document.execCommand('copy');
+      sel.removeAllRanges();
+      btn.textContent = '✓ COPIADO';
+      btn.classList.add('copiado');
+      setTimeout(() => { btn.textContent = 'COPIAR'; btn.classList.remove('copiado'); }, 2000);
+    });
+  });
+});
+</script>
+</body>
+</html>
